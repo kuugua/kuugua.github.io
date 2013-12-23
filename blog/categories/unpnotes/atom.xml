@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: UNPnotes | 因上努力，果上随缘]]></title>
+  <link href="http://kuugua.github.io/blog/categories/unpnotes/atom.xml" rel="self"/>
+  <link href="http://kuugua.github.io/"/>
+  <updated>2013-12-23T22:39:43+08:00</updated>
+  <id>http://kuugua.github.io/</id>
+  <author>
+    <name><![CDATA[kuugua]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[【原创】TCP连接的建立和关闭]]></title>
+    <link href="http://kuugua.github.io/blog/2013/11/27/unpnotes-tcpconnect-tcpclose/"/>
+    <updated>2013-11-27T21:02:00+08:00</updated>
+    <id>http://kuugua.github.io/blog/2013/11/27/unpnotes-tcpconnect-tcpclose</id>
+    <content type="html"><![CDATA[<p>{% img <a href="http://farm3.staticflickr.com/2866/10901632363_cc1faaa142_c.jpg">http://farm3.staticflickr.com/2866/10901632363_cc1faaa142_c.jpg</a> by  Chic*ka %}</p>
+
+<h4>1. TCP连接的建立（三握手）</h4>
+
+<p>{% img <a href="http://farm6.staticflickr.com/5481/11084136806_81b69f1f7b.jpg">http://farm6.staticflickr.com/5481/11084136806_81b69f1f7b.jpg</a> %}</p>
+
+<ul>
+<li><p>  首先服务器端，调用socket， bind， listen系统调用，让服务器端处理对连接的监听状态。</p></li>
+<li><p> 客户端调用socket获得套接字描述符，调用connect系统调用，主动打开连接，这时发送了一个SYN tcp分节。表示请求建立连接,这时客户端进入 SYN_SENT状态， 是主动打开连接端。</p></li>
+<li><p> 服务器端接收到SYN后，发送一个SYN和对ACK的确认消息。表示同意接受连接，并且确认请求的ack。这时服务器端进入SYN_RCD状态，是被动打开连接端。</p></li>
+<li><p> 客户端收到ACK后进入ESTABLISHED状态，接着发送对服务器端的SYN消息的确认。服务器接受到确认后，也进入ESTABLISHED状态。至此，tcp连接建立。</p></li>
+</ul>
+
+
+<p>连接的建立一共发送了三个tcp分节。所以称之为<code>三握手</code>。</p>
+
+<p>其中的MSS称为TCP分节的选项字段（客户端告诉服务器其能接受的最大的分节的大小为536字节，而服务器为1460字节），同时还有窗口的规模选项，时间戳选项等。</p>
+
+<h4>1.1为什么需要最后一次的确认ack分节呢？</h4>
+
+<p>理由：</p>
+
+<pre><code>    tcp提供的是可靠的通信，若只要前两个分节，那么当客户端第一次调用connect申请建立连接时的tcp分节在网络中“迷路”了,那么客户端收不到服务器的确认，则会重发一个SYN分节，然后服务器收到后确认了，这时连接建立了（假设不需要最后一个确认）并且交换完数据后关闭连接，这时迷路的第一个SYN分节被服务器接受到了，这时服务器以为是一次客户端发来新建立的连接请求，回复确认，这时就建立了不必要的连接。而有最后一个确认的话，客户端接受到服务器又一次确认，客户端判断是上次迷路的SYN的确认，不回复ack，就避免了多余连接被建立。
+</code></pre>
+
+<h4>2.  TCP连接的终止</h4>
+
+<p>{% img <a href="http://farm6.staticflickr.com/5527/11084136816_a014ca4b9b.jpg">http://farm6.staticflickr.com/5527/11084136816_a014ca4b9b.jpg</a> %}</p>
+
+<ul>
+<li>客户端调用close系统方法，发送FIN分节，此时客户端进入FIN_WAIT_1状态，是主动关闭端。表明客户端没有数据要发送给服务器了。</li>
+<li>服务器接受到FIN后返回一个ACK，并进入CLOSE_WAIT状态，是被动关闭端。</li>
+<li>客户端接受到服务器的ACK后，进入了FIN_WAIT_2状态，这个时候tcp的全双工的一半（客户端发送数据给服务器方向）关闭了。称为半关闭状态。</li>
+<li>服务器此时还是可以给客户端发送数据的，当发送完数据后，服务器觉得可以关闭连接了调用close方法，也发送一个FIN分节。服务器进入LAST_ACK状态。</li>
+<li>客户端接受到FIN后，进入TIME_WAI状态，并发送一个ACK确认。服务器收到ACK确认后，进入CLOSED状态。整个连接关闭，即全双工通信的另一半关闭。</li>
+</ul>
+
+
+<h4>2.1 为什么需要TIME_WAIT状态存在。</h4>
+
+<p>理由：</p>
+
+<p>可靠的实现TCP全双工的关闭。</p>
+
+<pre><code>TIME_WAIT状态的存在使得服务器发送的FIN分节得到确认，若不存在TIME_WAIT状态，则服务器得不到FIN的确认，或者得到是RST（另一种类型的TCP，这时服务器会解释成错误）则无法正常关闭全双工另一半的连接。
+</code></pre>
+
+<p>保证老的重复的分节在网络中消逝。</p>
+
+<pre><code>假设在12.06.25.253 的1500端口与 206.25.103.250 的端口21之间存在过连接（先已经关闭连接了），并有tcp分节在网络中因延时等“迷路”了。当在这个连个对端再次建立连接的时候，这个分节被服务器收到了，这时tcp分节并不是这次连接的数据，但是有TIME_WAIT状态，持续的时间是MSL的两倍。就能保证遗留的tcp分节在网络中被丢弃，避免了对新的连接的干扰。
+</code></pre>
+
+<h4>3. 下图展示了完整的状态转换和TCP连接的分组的交换。</h4>
+
+<p>   {% img <a href="http://www.cppblog.com/images/cppblog_com/lapcca/13342/o_tcp%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE.jpg">http://www.cppblog.com/images/cppblog_com/lapcca/13342/o_tcp%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE.jpg</a> TCP连接的状态转换图 %}</p>
+
+<p>  {% img <a href="http://farm6.staticflickr.com/5493/11083740764_05de985c34.jpg">http://farm6.staticflickr.com/5493/11083740764_05de985c34.jpg</a> tcp连接的分节交换图 %}</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[【原创】为什么套接字编程介于应用层与传输层之间]]></title>
+    <link href="http://kuugua.github.io/blog/2013/11/26/unpnotes-osi-model/"/>
+    <updated>2013-11-26T19:59:00+08:00</updated>
+    <id>http://kuugua.github.io/blog/2013/11/26/unpnotes-osi-model</id>
+    <content type="html"><![CDATA[<p>{% img <a href="http://farm8.staticflickr.com/7436/11064758214_bcbd9b18ff_c.jpg">http://farm8.staticflickr.com/7436/11064758214_bcbd9b18ff_c.jpg</a> by  Chic*ka %}</p>
+
+<ol>
+<li><h4>首先来说说ISO和OSI：</h4>
+
+<p>ISO：<a href="http://zh.wikipedia.org/zh/%E5%9C%8B%E9%9A%9B%E6%A8%99%E6%BA%96%E5%8C%96%E7%B5%84%E7%B9%94">国际标准化组织</a> International Organization for Standardization</p>
+
+<p>OSI： <a href="http://zh.wikipedia.org/zh/OSI%E6%A8%A1%E5%9E%8B">开放系统互连模型</a> open systems Interconnection</p>
+
+<p>关系是：ISO提出的一个试图使各种计算机在世界范围内互连为网络的标准框架，简称OSI。OSI又俗称为七层模型。</p></li>
+<li><h4>网际网协议族</h4>
+
+<p>就是我们常说的TCP/IP模型，标准称为：网际网协议族，即五层模型。OSI模型中顶上三层合为一层，称为应用层，这就是我们web客户（浏览器）、Telnet客户、web服务器等其他网络应用所在的层。</p></li>
+<li><h4>套接字编程简介</h4>
+
+<p>{% img <a href="http://farm3.staticflickr.com/2866/11066998623_5ca1248efb.jpg">http://farm3.staticflickr.com/2866/11066998623_5ca1248efb.jpg</a> %}</p>
+
+<p>如上图，UNP给我们讲述的套接字编程接口主要是指应用层进入传输层的接口，当然在五层模型中的传输层我们在TCP和UDP之间有间隙，表明存在网络应用绕过传输层而直接使用IPv4或者IPv6.我们称为<code>原始套接字（raw socket）</code>.</p>
+
+<p>那为什么套接字编程介于应用层与传输层之间呢？</p>
+
+<ul>
+<li><p>第一个理由是因为应用层太关注于网络应用的细节，而对通信细节了解的很少，底下四层对具体的网络应用关心不多，却处理所有的网络应用通信细节：发送数据，等待确认，给数据排序和计算校验和等。</p></li>
+<li><p>第二个理由是顶上三层构成了操作系统所谓的<code>用户进程</code>，而底下四层通常为操作系统内核提供，另物理层和数据链路层通常还于具体的设备有关，属于驱动范围。由此可见，应用层与传输层是构件API的自然位置。</p></li>
+</ul>
+</li>
+<li><h4>协议数据单元（PDU）</h4>
+
+<p>PDU（protocol data unit）:计算机网络各层对等实体间交换的单位信息。也就是每对等层交换数据单元。</p>
+
+<p>  各层的PDU如下：</p>
+
+<ul>
+<li>  应用层： application data（应用数据）</li>
+<li>  传输层： message （消息）
+
+<ul>
+<li> 其中TCP的PDU又称为segment （TCP报文段）。</li>
+</ul>
+</li>
+<li><p>  网络层： IP datagram (IP数据报)。</p></li>
+<li><p>  数据链路层： frame （帧）</p></li>
+<li>  物理层：bit （比特流）</li>
+</ul>
+</li>
+</ol>
+
+
+<p>注：</p>
+
+<pre><code>1.  MSS（maximum segment size）:指应用层与传输层的接口属性，指传输层协议规定的最大分节大小。
+
+2.  MTU（maximum transmission unit）:指传输层与数据链路层的接口属性，指数据链路层协议规定的最大传输单元。
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>
