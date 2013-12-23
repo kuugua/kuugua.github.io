@@ -5,11 +5,11 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>A blogging framework for hackers.  | 因上努力，果上随缘</title>
+	<title>article name  | 因上努力，果上随缘</title>
 
 <meta name="author" content="kuugua"> 
 
-<meta name="description" content=" this is test 中文 Dec 23rd, 2013 "> <meta name="keywords" content="">
+<meta name="description" content="this is test 中文 Dec 23rd, 2013 "> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -94,22 +94,10 @@ $(document).ready(
 
 </header>
 
-	<div id="content" class="inner">
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/12/23/article-name/">
-		
-			Article Name</a>
-	</h2>
-	<div class="entry-content">
-		<p>this is test  中文</p>
-
-		
-		
-	</div>
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Article Name</h2>
+	<div class="entry-content"><p>this is test  中文</p>
+</div>
 
 
 <div class="meta">
@@ -132,11 +120,24 @@ $(document).ready(
 	
 </div></article>
 
-<nav id="pagenavi">
-    
-    
-    <div class="center"><a href="/archives">Blog Archives</a></div>
-</nav></div>
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
 	<footer id="footer" class="inner">Copyright &copy; 2013
 
     kuugua
@@ -157,7 +158,10 @@ Powered by Octopress.
       var disqus_shortname = 'jaikly317blog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kuugua.github.com/blog/2013/12/23/article-name/';
+        var disqus_url = 'http://kuugua.github.com/blog/2013/12/23/article-name/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

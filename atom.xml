@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[因上努力，果上随缘]]></title>
+  <link href="http://kuugua.github.com/atom.xml" rel="self"/>
+  <link href="http://kuugua.github.com/"/>
+  <updated>2013-12-23T21:03:42+08:00</updated>
+  <id>http://kuugua.github.com/</id>
+  <author>
+    <name><![CDATA[kuugua]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[article name]]></title>
+    <link href="http://kuugua.github.com/blog/2013/12/23/article-name/"/>
+    <updated>2013-12-23T21:02:36+08:00</updated>
+    <id>http://kuugua.github.com/blog/2013/12/23/article-name</id>
+    <content type="html"><![CDATA[<p>this is test  中文</p>
+]]></content>
+  </entry>
+  
+</feed>
