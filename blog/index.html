@@ -5,11 +5,20 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>A blogging framework for hackers.  | 因上努力，果上随缘</title>
+	<title>kugua's personal blog  | 因上努力，果上随缘</title>
 
-<meta name="author" content="kuugua"> 
+<meta name="author" content="kugua"> 
 
-<meta name="description" content="从Java1.1开始引入了内部类以来，它就引起了人们的激烈争论。其实任何优秀的语言特性用得不好就是滥用，内部类用得不好就会导致代码像迷宫一样，导致出现毫无重用的综合征。 内部类分为成员内部类、静态嵌套类、方法内部类、匿名内部类。 几种内部类的共性： 内部类仍然是一个独立的类， &hellip;"> <meta name="keywords" content="">
+<meta name="description" content="javascript对象的属性检索 今天提提javascript中对象值得一提的东西。 1. 如果访问一个对象的属性不存在，那么返回undefine。 1
+2
+3
+4
+5
+6
+7
+8
+// if a property is not exsist ,then return undefine
+var &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -61,7 +70,7 @@ $(document).ready(
 
 <body>
 	<header id="header" class="inner"><h1><a href="/">因上努力，果上随缘</a></h1>
-<h4>A blogging framework for hackers.</h4>
+<h4>kugua's personal blog</h4>
 <nav id="main-nav"><ul>
 	<li><a href="/">主页/Home</a></li>
 	<li><a href="/archives">目录/Archive</a></li>
@@ -99,6 +108,246 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/12/24/javascript-object/">
+		
+			【原创】javascript对象值得提的一些事</a>
+	</h2>
+	<div class="entry-content">
+		<p><img src="http://farm4.staticflickr.com/3722/11515706555_df428e4415_c.jpg" title="by Hamilton!" ></p>
+
+<h4>javascript对象的属性检索</h4>
+
+<p>今天提提javascript中对象值得一提的东西。</p>
+
+<h5>1. 如果访问一个对象的属性不存在，那么返回undefine。</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// if a property is not exsist ,then return undefine</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">stooge</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">firstName</span><span class="o">:</span> <span class="s2">&quot;Jerome&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;last_name&#39;</span><span class="o">:</span> <span class="s2">&quot;Howard&quot;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">stooge</span><span class="p">.</span><span class="nx">firstName</span><span class="p">);</span>  <span class="c1">//Jerome</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">stooge</span><span class="p">.</span><span class="nx">nikeName</span><span class="p">);</span> <span class="c1">// undefine</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>2. 我们可以给用 &ldquo;||&rdquo; 运算符给对象的属性赋默认值。</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//use &#39;||&#39; operator to set varliable default value;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">nikeName1</span>  <span class="o">=</span> <span class="nx">stooge</span><span class="p">.</span><span class="nx">nikeName</span> <span class="o">||</span> <span class="s2">&quot;none&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">if</span><span class="p">(</span><span class="nx">nikeName1</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;nikeName1 is: &quot;</span> <span class="o">+</span> <span class="kc">true</span><span class="p">);</span> <span class="c1">//nikeName1 is true</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">nikeName1</span><span class="p">);</span>  <span class="c1">//none</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>3. 如果我们访问一个对象的不存在的属性的属性，那么将会跑TypeError错误。</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">stooge</span><span class="p">.</span><span class="nx">nikeName</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span> <span class="c1">//TypeError</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>为了避免这种情况的发生，我们可以使用&#8221;&amp;&amp;&ldquo;运算符.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//to prevent this case, we can use &#39;&amp;&amp;&#39; operator.</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">nikeNam2</span> <span class="o">=</span> <span class="p">(</span><span class="nx">stooge</span><span class="p">.</span><span class="nx">nikeName</span> <span class="o">&amp;&amp;</span> <span class="nx">stooge</span><span class="p">.</span><span class="nx">nikeName</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">nikeNam2</span><span class="p">);</span>
+</span><span class='line'><span class="k">if</span><span class="p">(</span><span class="nx">nikeNam2</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;nikeNam2 is: &quot;</span> <span class="o">+</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;nikeNam2 is: &quot;</span> <span class="o">+</span> <span class="kc">false</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>4. 我们都知道javascrip是基于原型继承实现的面向对象，与java基于类的继承不同的一种面向对象实现方式。javascript中每个新创建的对象都是继承了另一个对象的属性。为了让这种关系明显的显示出来我们可以定义如下的方法。</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//Prototype 原型</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">beget</span><span class="p">);</span> <span class="c1">//undefine</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">beget</span> <span class="o">!==</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">){</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">F</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">();</span>
+</span><span class='line'>      <span class="nx">F</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nx">o</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">return</span> <span class="k">new</span> <span class="nx">F</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">another_stooge</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">stooge</span><span class="p">);</span> <span class="c1">//another_stooge 继承于stooge。</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;another_stooge: &quot;</span> <span class="o">+</span> <span class="nx">another_stooge</span><span class="p">.</span><span class="nx">firstName</span><span class="p">);</span> <span class="c1">//Jerome（继承来的属性）</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;another_stooge: &quot;</span> <span class="o">+</span> <span class="nx">another_stooge</span><span class="p">.</span><span class="nx">fun</span><span class="p">());</span> <span class="c1">//fun (继承来的方法)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>关于javascript的原型继承，属于javascript中很大的一部分内容，我们后面还会讲到。</p>
+
+<h4>javascript对象属性的遍历</h4>
+
+<h5>5. 既然javascript中的对象继承了另一个对象的属性和方法，那么我们在访问这个对象的时候，通常我们会有这样的需求，就是想访问这个对象本身扩展的所有的属性。解决方法如下。</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//我们便于测试先给another_stooge添加自己的属性和方法。</span>
+</span><span class='line'><span class="nx">another_stooge</span><span class="p">.</span><span class="nx">nikeName</span> <span class="o">=</span> <span class="s2">&quot;Bob&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">another_stooge</span><span class="p">.</span><span class="nx">fun2</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;another_stooge&#39;s function....&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//过滤继承而来的属性和方法</span>
+</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="nx">name</span> <span class="k">in</span> <span class="nx">another_stooge</span><span class="p">){</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="nx">another_stooge</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">name</span><span class="p">)){</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span>  <span class="c1">//nikeName fun2</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>6.如果我们有让对象的属性按我们想要的顺序输出，那么我们可以这样做。</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//定义一个循环变量</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">i</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//定义顺序数组</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">properties</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>  <span class="s1">&#39;nikeName&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;firstName&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;last_name&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;fun&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;fun2&#39;</span>
+</span><span class='line'><span class="p">];</span>
+</span><span class='line'><span class="c1">//循环按顺序输出属性。</span>
+</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">properties</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; : &quot;</span><span class="o">+</span> <span class="nx">another_stooge</span><span class="p">[</span><span class="nx">properties</span><span class="p">[</span><span class="nx">i</span><span class="p">]]);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>javascript对象属性的删除</h4>
+
+<h5>6.当对象的属性与继承而来的属性同名时，会覆盖继承而来的属性值。但删除操作对于对象自己的属性是有作用的对继承而来属性是没有作用的。</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//delete</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">another_stooge</span><span class="p">.</span><span class="nx">firstName</span><span class="p">)</span> <span class="c1">// Jerome</span>
+</span><span class='line'><span class="nx">another_stooge</span><span class="p">.</span><span class="nx">firstName</span> <span class="o">=</span> <span class="s2">&quot;Micheal&quot;</span><span class="p">;</span><span class="c1">//覆盖继承而来的属性。</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">another_stooge</span><span class="p">.</span><span class="nx">firstName</span><span class="p">)</span> <span class="c1">//Micheal</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">delete</span> <span class="nx">another_stooge</span><span class="p">.</span><span class="nx">firstName</span><span class="p">;</span>   <span class="c1">// true</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">another_stooge</span><span class="p">.</span><span class="nx">firstName</span><span class="p">)</span> <span class="c1">// Jerome //删除后，又访问了继承而来的值，</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">delete</span> <span class="nx">another_stooge</span><span class="p">.</span><span class="nx">firstName</span><span class="p">;</span> <span class="c1">//true; 但是没有真实的删除。</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">another_stooge</span><span class="p">.</span><span class="nx">firstName</span><span class="p">)</span> <span class="c1">// Jerome</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>`</p>
+
+<p>这是因为javascript基于原型的设计，如果可以删除继承而来的属性，那么将会影响所有继承于这个对象的其他对象，这样整个javascript的对象系统就乱了。</p>
+
+<p>BTW, 祝大伙平安夜快乐，圣诞快乐 ：)</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-24T20:00:00+08:00" pubdate data-updated="true">Dec 24<span>th</span>, 2013</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/javascript/'>javascript</a>
+
+</div>
+
+
+	
+</div></article>
 
 
     <article class="post">
@@ -1644,433 +1893,6 @@ java虚拟机可以处于不连续的内存空间，只要逻辑上是连续的�
 	
 </div></article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/09/21/java-innerclass/">
-		
-			【转载】java中的内部类</a>
-	</h2>
-	<div class="entry-content">
-		<p><img src="http://farm6.staticflickr.com/5479/9815323233_3f255d761f_c.jpg" title="by Chic*ka" ></p>
-
-<p>从Java1.1开始引入了内部类以来，它就引起了人们的激烈争论。其实任何优秀的语言特性用得不好就是滥用，内部类用得不好就会导致代码像迷宫一样，导致出现毫无重用的综合征。</p>
-
-<p>内部类分为成员内部类、静态嵌套类、方法内部类、匿名内部类。</p>
-
-<p>几种内部类的共性：</p>
-
-<ul>
-<li><p>内部类仍然是一个独立的类，在编译之后会内部类会被编译成独立的.class文件，但是前面冠以外部类的类命和$符号。</p></li>
-<li><p>内部类不能用普通的方式访问。内部类是外部类的一个成员，因此内部类可以自由地访问外部类的成员变量，无论是否是private的。</p></li>
-</ul>
-
-
-<h3>1. 成员内部类：</h3>
-
-<p>形式如下:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Outer</span> <span class="o">{</span>
-</span><span class='line'>    <span class="kd">class</span> <span class="nc">Inner</span><span class="o">{}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-编译上述代码会产生两个文件：Outer.class和Outer$Inner.class。
-成员内部类内不允许有任何静态声明！下面代码不能通过编译。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Inner</span><span class="o">{</span>
-</span><span class='line'>    <span class="kd">static</span> <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>能够访问成员内部类的唯一途径就是通过外部类的对象！</p>
-
-<ul>
-<li>从外部类的非静态方法中实例化内部类对象。</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Outer</span> <span class="o">{</span>
-</span><span class='line'>    <span class="kd">private</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">makeInner</span><span class="o">(){</span>
-</span><span class='line'>        <span class="n">Inner</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Inner</span><span class="o">();</span>
-</span><span class='line'>        <span class="n">in</span><span class="o">.</span><span class="na">seeOuter</span><span class="o">();</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>    <span class="kd">class</span> <span class="nc">Inner</span><span class="o">{</span>
-</span><span class='line'>        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">seeOuter</span><span class="o">(){</span>
-</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
-</span><span class='line'>        <span class="o">}</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>表面上，我们并没有创建外部类的对象就实例化了内部类对象，和上面的话矛盾。事实上，如果不创建外部类对象也就不可能调用makeInner()方法，所以到头来还是要创建外部类对象的。</p>
-
-<p>你可能试图把makeInner()方法修饰为静态方法，即static public void makeInner()。这样不创建外部类就可以实例化外部类了！但是在一个静态方法里能访问非静态成员和方法吗？显然不能。它没有this引用。没能跳出那条规则！但是如果在这个静态方法中实例化一个外部类对象，再用这个对象实例化外部类呢？完全可以！也就是下一条的内容。</p>
-
-<ul>
-<li>从外部类的静态方法中实例化内部类对象。</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Outer</span> <span class="o">{</span>
-</span><span class='line'>    <span class="kd">private</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>
-</span><span class='line'>    <span class="kd">class</span> <span class="nc">Inner</span><span class="o">{</span>
-</span><span class='line'>        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">seeOuter</span><span class="o">(){</span>
-</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
-</span><span class='line'>        <span class="o">}</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="n">Outer</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Outer</span><span class="o">();</span>
-</span><span class='line'>        <span class="n">Outer</span><span class="o">.</span><span class="na">Inner</span> <span class="n">in</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="na">new</span> <span class="n">Inner</span><span class="o">();</span>
-</span><span class='line'>        <span class="c1">//Outer.Inner in = new Outer().new Inner();</span>
-</span><span class='line'>        <span class="n">in</span><span class="o">.</span><span class="na">seeOuter</span><span class="o">();</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>被注释掉的那行是它上面两行的合并形式，一条简洁的语句。</p>
-
-<p>对比一下：在外部类的非静态方法中实例化内部类对象是普通的new方式：Inner in = new Inner();</p>
-
-<p>在外部类的静态方法中实例化内部类对象，必须先创建外部类对象：Outer.Inner in = new Outer().new Inner();</p>
-
-<ul>
-<li>内部类的this引用。
-普通的类可以用this引用当前的对象，内部类也是如此。但是假若内部类想引用外部类当前的对象呢？用“外部类名”.this；的形式,如下例的Outer.this。</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Outer</span> <span class="o">{</span>
-</span><span class='line'>    <span class="kd">class</span> <span class="nc">Inner</span><span class="o">{</span>
-</span><span class='line'>        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">seeOuter</span><span class="o">(){</span>
-</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
-</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Outer</span><span class="o">.</span><span class="na">this</span><span class="o">);</span>
-</span><span class='line'>        <span class="o">}</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>成员内部类的修饰符。
-对于普通的类，可用的修饰符有final、abstract、strictfp、public和默认的包访问。
-但是成员内部类更像一个成员变量和方法。
-可用的修饰符有：final、abstract、public、private、protected、strictfp和static。
-一旦用static修饰内部类，它就变成静态内部类了。</li>
-</ul>
-
-
-<h3>2.方法内部类。</h3>
-
-<p>顾名思义，把类放在方法内。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Outer</span> <span class="o">{</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">(){</span>
-</span><span class='line'>        <span class="kd">class</span> <span class="nc">Inner</span><span class="o">{</span>
-</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">seeOuter</span><span class="o">(){</span>
-</span><span class='line'>            <span class="o">}</span>
-</span><span class='line'>        <span class="o">}</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li><p>方法内部类只能在定义该内部类的方法内实例化，不可以在此方法外对其实例化。</p></li>
-<li><p>方法内部类对象不能使用该内部类所在方法的非final局部变量。</p></li>
-</ul>
-
-
-<p>因为方法的局部变量位于栈上，只存在于该方法的生命期内。当一个方法结束，其栈结构被删除，局部变量成为历史。但是该方法结束之后，在方法内创建的内部类对象可能仍然存在于堆中！例如，如果对它的引用被传递到其他某些代码，并存储在一个成员变量内。正因为不能保证局部变量的存活期和方法内部类对象的一样长，所以内部类对象不能使用它们。</p>
-
-<p>下面是完整的例子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Outer</span> <span class="o">{</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">(){</span>
-</span><span class='line'>        <span class="kd">final</span> <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span><span class="mi">10</span><span class="o">;</span>
-</span><span class='line'>        <span class="kd">class</span> <span class="nc">Inner</span><span class="o">{</span>
-</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">seeOuter</span><span class="o">(){</span>
-</span><span class='line'>                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">);</span>
-</span><span class='line'>            <span class="o">}</span>
-</span><span class='line'>        <span class="o">}</span>
-</span><span class='line'>        <span class="n">Inner</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Inner</span><span class="o">();</span>
-</span><span class='line'>        <span class="n">in</span><span class="o">.</span><span class="na">seeOuter</span><span class="o">();</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="n">Outer</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Outer</span><span class="o">();</span>
-</span><span class='line'>        <span class="n">out</span><span class="o">.</span><span class="na">doSomething</span><span class="o">();</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'> <span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li><p>方法内部类的修饰符。
-与成员内部类不同，方法内部类更像一个局部变量。
-可以用于修饰方法内部类的只有final和abstract。</p></li>
-<li><p>静态方法内的方法内部类。
-静态方法是没有this引用的，因此在静态方法内的内部类遭受同样的待遇，即：只能访问外部类的静态成员。</p></li>
-</ul>
-
-
-<h3>3. 匿名内部类。</h3>
-
-<p>顾名思义，没有名字的内部类。表面上看起来它们似乎有名字，实际那不是它们的名字。</p>
-
-<ul>
-<li>继承式的匿名内部类。</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Car</span> <span class="o">{</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">drive</span><span class="o">(){</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Driving a car!&quot;</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">class</span> <span class="nc">Test</span><span class="o">{</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="n">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Car</span><span class="o">(){</span>
-</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">drive</span><span class="o">(){</span>
-</span><span class='line'>                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Driving another car!&quot;</span><span class="o">);</span>
-</span><span class='line'>            <span class="o">}</span>
-</span><span class='line'>        <span class="o">};</span>
-</span><span class='line'>        <span class="n">car</span><span class="o">.</span><span class="na">drive</span><span class="o">();</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>结果输出了：Driving another car! Car引用变量不是引用Car对象，而是Car匿名子类的对象。
-建立匿名内部类的关键点是重写父类的一个或多个方法。再强调一下，是重写父类的方法，而不是创建新的方法。因为用父类的引用不可能调用父类本身没有的方法！创建新的方法是多余的。简言之，参考多态。</p>
-
-<ul>
-<li>接口式的匿名内部类。</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">interface</span>  <span class="nc">Vehicle</span> <span class="o">{</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">drive</span><span class="o">();</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">class</span> <span class="nc">Test</span><span class="o">{</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="n">Vehicle</span> <span class="n">v</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Vehicle</span><span class="o">(){</span>
-</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">drive</span><span class="o">(){</span>
-</span><span class='line'>                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Driving a car!&quot;</span><span class="o">);</span>
-</span><span class='line'>            <span class="o">}</span>
-</span><span class='line'>        <span class="o">};</span>
-</span><span class='line'>        <span class="n">v</span><span class="o">.</span><span class="na">drive</span><span class="o">();</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面的代码很怪，好像是在实例化一个接口。事实并非如此，接口式的匿名内部类是实现了一个接口的匿名类。而且只能实现一个接口。</p>
-
-<ul>
-<li>参数式的匿名内部类。</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Bar</span><span class="o">{</span>
-</span><span class='line'>    <span class="kt">void</span> <span class="nf">doStuff</span><span class="o">(</span><span class="n">Foo</span> <span class="n">f</span><span class="o">){}</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">interface</span> <span class="nc">Foo</span><span class="o">{</span>
-</span><span class='line'>    <span class="kt">void</span> <span class="nf">foo</span><span class="o">();</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">class</span> <span class="nc">Test</span><span class="o">{</span>
-</span><span class='line'>    <span class="kd">static</span> <span class="kt">void</span> <span class="nf">go</span><span class="o">(){</span>
-</span><span class='line'>        <span class="n">Bar</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Bar</span><span class="o">();</span>
-</span><span class='line'>        <span class="n">b</span><span class="o">.</span><span class="na">doStuff</span><span class="o">(</span><span class="k">new</span> <span class="n">Foo</span><span class="o">(){</span>
-</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">foo</span><span class="o">(){</span>
-</span><span class='line'>                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;foofy&quot;</span><span class="o">);</span>
-</span><span class='line'>            <span class="o">}</span>
-</span><span class='line'>        <span class="o">});</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>4.静态嵌套类。</h3>
-
-<p>从技术上讲，静态嵌套类不属于内部类。因为内部类与外部类共享一种特殊关系，更确切地说是对实例的共享关系。而静态嵌套类则没有上述关系。它只是位置在另一个类的内部，因此也被称为顶级嵌套类。</p>
-
-<p>静态的含义是该内部类可以像其他静态成员一样，没有外部类对象时，也能够访问它。静态嵌套类不能访问外部类的成员和方法。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Outer</span><span class="o">{</span>
-</span><span class='line'>    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Inner</span><span class="o">{}</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'><span class="kd">class</span> <span class="nc">Test</span> <span class="o">{</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
-</span><span class='line'>        <span class="n">Outer</span><span class="o">.</span><span class="na">Inner</span> <span class="n">n</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Outer</span><span class="o">.</span><span class="na">Inner</span><span class="o">();</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>原文地址：<a href="http://www.blogjava.net/raylong1982/archive/2007/10/24/155439.html">http://www.blogjava.net/raylong1982/archive/2007/10/24/155439.html</a></p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-21T18:42:00+08:00" pubdate data-updated="true">Sep 21<span>st</span>, 2013</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/javashi-yi/'>java拾遗</a>
-
-</div>
-
-
-	
-</div></article>
-
 <nav id="pagenavi">
     
     
@@ -2080,7 +1902,7 @@ java虚拟机可以处于不连续的内存空间，只要逻辑上是连续的�
 </nav></div>
 	<footer id="footer" class="inner">Copyright &copy; 2013
 
-    kuugua
+    kugua
 
 <br>
 Powered by Octopress.
