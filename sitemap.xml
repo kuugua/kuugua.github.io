@@ -2,7 +2,7 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://kuugua.github.io/blog/2013/09/15/java-relativepath/</loc>
-        <lastmod>2013-12-23T21:01:18+08:00</lastmod>
+        <lastmod>2013-12-24T19:42:48+08:00</lastmod>
     </url>
     <url>
         <loc>http://kuugua.github.io/blog/2013/09/21/java-innerclass/</loc>
@@ -22,11 +22,7 @@
     </url>
     <url>
         <loc>http://kuugua.github.io/blog/2013/10/16/javascript-function-this/</loc>
-        <lastmod>2013-12-23T21:01:18+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://kuugua.github.io/blog/2013/10/16/javascript-function-this/</loc>
-        <lastmod>2013-12-23T21:01:18+08:00</lastmod>
+        <lastmod>2013-12-24T19:45:43+08:00</lastmod>
     </url>
     <url>
         <loc>http://kuugua.github.io/blog/2013/10/16/jvm-object-visit/</loc>
@@ -45,12 +41,8 @@
         <lastmod>2013-12-23T21:01:18+08:00</lastmod>
     </url>
     <url>
-        <loc>http://kuugua.github.io/blog/2013/12/23/article-name/</loc>
-        <lastmod>2013-12-23T21:03:07+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://kuugua.github.io/blog/2013/12/23/dd/</loc>
-        <lastmod>2013-12-23T22:37:43+08:00</lastmod>
+        <loc>http://kuugua.github.io/blog/2013/12/24/java-innerclass/</loc>
+        <lastmod>2013-12-24T19:41:15+08:00</lastmod>
     </url>
     <url>
         <loc>http://kuugua.github.io/aboutme/</loc>
@@ -58,15 +50,15 @@
     </url>
     <url>
         <loc>http://kuugua.github.io/archives/</loc>
-        <lastmod>2013-12-23T22:37:43+08:00</lastmod>
+        <lastmod>2013-12-24T19:45:43+08:00</lastmod>
     </url>
     <url>
         <loc>http://kuugua.github.io/blog/archives/</loc>
-        <lastmod>2013-12-23T22:37:43+08:00</lastmod>
+        <lastmod>2013-12-24T19:45:43+08:00</lastmod>
     </url>
     <url>
         <loc>http://kuugua.github.io/blog/</loc>
-        <lastmod>2013-12-23T22:37:43+08:00</lastmod>
+        <lastmod>2013-12-24T19:45:43+08:00</lastmod>
     </url>
     <url>
         <loc>http://kuugua.github.io/column/</loc>
@@ -74,7 +66,7 @@
     </url>
     <url>
         <loc>http://kuugua.github.io/</loc>
-        <lastmod>2013-12-23T22:37:43+08:00</lastmod>
+        <lastmod>2013-12-24T19:45:43+08:00</lastmod>
     </url>
     <url>
         <loc>http://kuugua.github.io/links/</loc>

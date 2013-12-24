@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | 因上努力，果上随缘]]></title>
   <link href="http://kuugua.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://kuugua.github.io/"/>
-  <updated>2013-12-23T22:39:43+08:00</updated>
+  <updated>2013-12-24T19:47:48+08:00</updated>
   <id>http://kuugua.github.io/</id>
   <author>
     <name><![CDATA[kuugua]]></name>
@@ -14,11 +14,11 @@
 
   
   <entry>
-    <title type="html"><![CDATA[【原创】javascript中this变量在函数不同调用方式中含义]]></title>
+    <title type="html"><![CDATA[【原创】javascript中的函数(一)：调用方式与this变量]]></title>
     <link href="http://kuugua.github.io/blog/2013/10/16/javascript-function-this/"/>
     <updated>2013-10-16T21:37:00+08:00</updated>
     <id>http://kuugua.github.io/blog/2013/10/16/javascript-function-this</id>
-    <content type="html"><![CDATA[<p>{% img <a href="http://farm8.staticflickr.com/7345/9770973423_b7b913d727_c.jpg">http://farm8.staticflickr.com/7345/9770973423_b7b913d727_c.jpg</a> by  Chic*ka %}</p>
+    <content type="html"><![CDATA[<p><img class="<a" src="href="http://farm8.staticflickr.com/7345/9770973423_b7b913d727_c.jpg">http://farm8.staticflickr.com/7345/9770973423_b7b913d727_c.jpg</a>" title="by  Chic*ka" ></p>
 
 <p>最近看道大师的 javascript：The Good part一书中谈道在javascript中函数的调用的四种方式，今天就来说说这四种不同方式下的this变量的含义。以下代码建议在chrome下运行。</p>
 
@@ -130,65 +130,6 @@ var status = Quo.prototype.get_status.apply(status_Object);
 console.log(status);
 ```
 结合第三种调用方式中的代码，可以看出，因为get_status方法的参数为空，所以我们只传入了status_Object，从输出（get_status方法内的输出）可见this指向了status_Object。但当apply()的参数为空时，默认调用全局对象。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[【原创】javascript中this变量在函数不同调用方式中含义]]></title>
-    <link href="http://kuugua.github.io/blog/2013/10/16/javascript-function-this/"/>
-    <updated>2013-10-16T21:37:00+08:00</updated>
-    <id>http://kuugua.github.io/blog/2013/10/16/javascript-function-this</id>
-    <content type="html"><![CDATA[<p>最近看道大师的 javascript：The Good part一书中谈道在javascript中函数的调用的四种方式，今天就来说说这四种不同方式下的this变量的含义。以下代码建议在chrome下运行。</p>
-
-<ol>
-<li><p>函数的方法调用模式： 当function作为对象的属性调用时，称为方法。
-<code>javascript
-var myObject = {
- value: 0,
- increment: function(inc){
-     // console.log(typeof inc);  //返回表示数据类型的字符串。
-     // console.log(typeof inc === 'number') //inc 如果是number类型，则输出true；
-     console.log(this);//谁调用this 指向谁。输出myObject对象
-     this.value += typeof inc === 'number' ? inc : 1;
- }
-};
-myObject.increment();
-console.log(myObject.value); //1
-myObject.increment(2);
-console.log(myObject.value); //3
-myObject.increment('0');
-console.log(myObject.value); //4
-</code>
-可见，在函数作为对象的属性时，被调用时this指向这个对象。</p></li>
-<li><p>函数的函数调用模式： 当函数并非一个对象的属性时，那它就当做一个函数来调用。
-<code>javascript
-myObject.double = function(){
- console.log(this); //myObject
- console.log("outter function's this: " + this); //myObject
- var helper = function(){
-     //绑定到了全局的对象window；
-     console.log("inner function's this: " + this); //window
- }
- helper();
-};
-myObject.double();
-</code>
-我们为myObject增加一个double方法，并且在double方法中定义了一个helper函数，并调用它。我们可以可以看到这个时候，第一个输出的this指向myObject，原理跟第一个一样。然而，helper函数里面的this却指向了window全局对象。正如道大师所说这是javascript设计中的一个错误。为了能让内嵌的函数能访问包裹它的函数的上下文，我们可以如下设计。
-```javascript
-myObject.double = function(){
- var  that = this;</p>
-
-<p> var helper = function(){
-     console.log(that.value);
-     that.value = that.value + 1;
-     console.log(that.value);
- }
- helper();
-};
-myObject.double();
-```</p></li>
-</ol>
-
 ]]></content>
   </entry>
   

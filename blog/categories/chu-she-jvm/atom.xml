@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 初涉jvm | 因上努力，果上随缘]]></title>
   <link href="http://kuugua.github.io/blog/categories/chu-she-jvm/atom.xml" rel="self"/>
   <link href="http://kuugua.github.io/"/>
-  <updated>2013-12-23T22:39:43+08:00</updated>
+  <updated>2013-12-24T19:47:48+08:00</updated>
   <id>http://kuugua.github.io/</id>
   <author>
     <name><![CDATA[kuugua]]></name>
@@ -18,7 +18,7 @@
     <link href="http://kuugua.github.io/blog/2013/10/16/jvm-object-visit/"/>
     <updated>2013-10-16T21:37:00+08:00</updated>
     <id>http://kuugua.github.io/blog/2013/10/16/jvm-object-visit</id>
-    <content type="html"><![CDATA[<p>{% img <a href="http://farm8.staticflickr.com/7284/9046538774_13144c8e0d_c.jpg">http://farm8.staticflickr.com/7284/9046538774_13144c8e0d_c.jpg</a>  by Chic*ka %}</p>
+    <content type="html"><![CDATA[<p><img class="<a" src="href="http://farm8.staticflickr.com/7284/9046538774_13144c8e0d_c.jpg">http://farm8.staticflickr.com/7284/9046538774_13144c8e0d_c.jpg</a>" title="by Chic*ka" ></p>
 
 <p>在不同的的jvm中，实现对象的访问方式会有所不同，其中主流的访问方式有两种：使用句柄和直接指针。</p>
 
@@ -26,7 +26,7 @@
 
 <p>jvm会在堆中划分一部分内存存放句柄，称为句柄池，reference引用存储着句柄的地址，而句柄中包含了对象实例数据的指针和对象类型数据指针（指向方法区中对象类型信息）</p>
 
-<p>{% img <a href="http://farm3.staticflickr.com/2829/10456407563_092698dc8a.jpg">http://farm3.staticflickr.com/2829/10456407563_092698dc8a.jpg</a> 句柄方式 %}</p>
+<p><img class="<a" src="href="http://farm3.staticflickr.com/2829/10456407563_092698dc8a.jpg">http://farm3.staticflickr.com/2829/10456407563_092698dc8a.jpg</a>" title="句柄方式" ></p>
 
 <p>使用句柄方式的优点是，reference中存放的是句柄的地址，堆中对象移动后，句柄地址变化，而reference中的内容不变。</p>
 
@@ -34,7 +34,7 @@
 
 <p>在直接指针方式中，reference中直接存放着对象的地址，而对象中存放着对对象类型数据的指针。</p>
 
-<p>{% img <a href="http://farm3.staticflickr.com/2886/10456406993_c33cf7b1e6.jpg">http://farm3.staticflickr.com/2886/10456406993_c33cf7b1e6.jpg</a> 直接指针方式 %}</p>
+<p><img class="<a" src="href="http://farm3.staticflickr.com/2886/10456406993_c33cf7b1e6.jpg">http://farm3.staticflickr.com/2886/10456406993_c33cf7b1e6.jpg</a>" title="直接指针方式" ></p>
 
 <p>直接指针方式的优点是访问速度比句柄方式快，因为减少了一次指针的定位的开销。这在java中对象访问频繁的情况能节约很大的执行成本。Sun HotSpot 使用的是直接指针方式。</p>
 ]]></content>
@@ -45,7 +45,7 @@
     <link href="http://kuugua.github.io/blog/2013/09/26/jvm-objectisalive/"/>
     <updated>2013-09-26T22:17:00+08:00</updated>
     <id>http://kuugua.github.io/blog/2013/09/26/jvm-objectisalive</id>
-    <content type="html"><![CDATA[<p>{% img <a href="http://farm8.staticflickr.com/7282/8715807544_4dc376db39_c.jpg">http://farm8.staticflickr.com/7282/8715807544_4dc376db39_c.jpg</a> %}</p>
+    <content type="html"><![CDATA[<p><img class="<a" src="href="http://farm8.staticflickr.com/7282/8715807544_4dc376db39_c.jpg">http://farm8.staticflickr.com/7282/8715807544_4dc376db39_c.jpg</a>"></p>
 
 <h3><strong>一.垃回收器判断java对象死活的算法</strong></h3>
 
@@ -61,7 +61,7 @@
 
 <p>根搜索算法基本思路就是通过一系列称为 “GC Roots” 的对象作为起始点，从这些节点向下搜索，搜索走过的路径称为“引用链（Refenrence Chain）”，当一个对象到所有的GC Roots都没有引用链的时候，则证明这个对象是不可用的。则将会被判断为可回收的对象。如下图中的对象5， 6， 7，虽然它门之间有关联，但是它门与GC Roots之间没有引用链，所以在垃圾回收的时候是会被认为是可回收的。</p>
 
-<p>{% img ../images/GC_Roots.png %}</p>
+<p><img src="../images/GC_Roots.png"></p>
 
 <p>那java中到底使用了是哪种算法呢，我们通过一段代码来验证：
 ```java</p>
@@ -100,7 +100,7 @@
 
 <p>看GC日志（eclipse中gc日志输出设置，参见：<a href="http://www.myexception.cn/eclipse/1268020.html%EF%BC%89">http://www.myexception.cn/eclipse/1268020.html%EF%BC%89</a></p>
 
-<p>{% img ../images/gclog.png %}</p>
+<p><img src="../images/gclog.png"></p>
 
 <p>可以看到两个对象4M（<code>4612K-&gt;375K</code>）左右被回收了，也就是数说从侧面证明了java不是使用引用计数算法，而是根搜索算法。这是因为引用计数算法无法解决对象之间相互循环的引用的问题。顺便提一句python是使用了计数引用算法。</p>
 
@@ -189,7 +189,7 @@ public static void  main(String[] args) throws InterruptedException{
     <link href="http://kuugua.github.io/blog/2013/09/21/jvm-javamemorymodel/"/>
     <updated>2013-09-21T19:22:00+08:00</updated>
     <id>http://kuugua.github.io/blog/2013/09/21/jvm-javamemorymodel</id>
-    <content type="html"><![CDATA[<p>{%img <a href="http://farm4.staticflickr.com/3733/9693627701_273b0b9600_c.jpg">http://farm4.staticflickr.com/3733/9693627701_273b0b9600_c.jpg</a> by Chic*ka %}</p>
+    <content type="html"><![CDATA[<p><img class="<a" src="href="http://farm4.staticflickr.com/3733/9693627701_273b0b9600_c.jpg">http://farm4.staticflickr.com/3733/9693627701_273b0b9600_c.jpg</a>" title="by Chic*ka" ></p>
 
 <h3><strong>一. 引言：</strong></h3>
 
@@ -199,7 +199,7 @@ public static void  main(String[] args) throws InterruptedException{
 
 <p>jvm在执行java程序的过程中会把内存划分为若干个不同的数据区域，这些区域的生命周期和作用各不相同。根据《java虚拟机规范（第二版）》jvm把所管理的内存划分爲如下图几个区域：</p>
 
-<p>{% img <a href="http://img.my.csdn.net/uploads/201209/29/1348934141_8447.jpg">http://img.my.csdn.net/uploads/201209/29/1348934141_8447.jpg</a> %}</p>
+<p><img class="<a" src="href="http://img.my.csdn.net/uploads/201209/29/1348934141_8447.jpg">http://img.my.csdn.net/uploads/201209/29/1348934141_8447.jpg</a>"></p>
 
 <h4>1. 程序计数器（Program Counter Register）</h4>
 
@@ -239,7 +239,7 @@ jvm规范中规定了这个区域的两种异常：当线程请求的栈深度�
 <p><code>老年代：</code>
 用于存放经过多次新生代GC任然存活的对象，例如缓存对象，新建的对象也有可能直接进入老年代，主要有两种情况：①.大对象，可通过启动参数设置-XX:PretenureSizeThreshold=1024(单位为字节，默认为0)来代表超过多大时就不在新生代分配，而是直接在老年代分配。②.大的数组对象，切数组中无引用外部对象。老年代所占的内存大小为-Xmx对应的值减去-Xmn对应的值。</p>
 
-<p>{% img <a href="http://img.my.csdn.net/uploads/201209/30/1349009313_6062.jpg">http://img.my.csdn.net/uploads/201209/30/1349009313_6062.jpg</a> %}</p>
+<p><img class="<a" src="href="http://img.my.csdn.net/uploads/201209/30/1349009313_6062.jpg">http://img.my.csdn.net/uploads/201209/30/1349009313_6062.jpg</a>"></p>
 
 <p><code>生命周期：</code>
 随jvm的啓动而创建，随jvm的关闭和消亡。是线程共享的区域。</p>

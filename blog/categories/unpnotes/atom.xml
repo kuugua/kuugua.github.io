@@ -4,7 +4,7 @@
   <title><![CDATA[Category: UNPnotes | 因上努力，果上随缘]]></title>
   <link href="http://kuugua.github.io/blog/categories/unpnotes/atom.xml" rel="self"/>
   <link href="http://kuugua.github.io/"/>
-  <updated>2013-12-23T22:39:43+08:00</updated>
+  <updated>2013-12-24T19:47:48+08:00</updated>
   <id>http://kuugua.github.io/</id>
   <author>
     <name><![CDATA[kuugua]]></name>
@@ -18,11 +18,11 @@
     <link href="http://kuugua.github.io/blog/2013/11/27/unpnotes-tcpconnect-tcpclose/"/>
     <updated>2013-11-27T21:02:00+08:00</updated>
     <id>http://kuugua.github.io/blog/2013/11/27/unpnotes-tcpconnect-tcpclose</id>
-    <content type="html"><![CDATA[<p>{% img <a href="http://farm3.staticflickr.com/2866/10901632363_cc1faaa142_c.jpg">http://farm3.staticflickr.com/2866/10901632363_cc1faaa142_c.jpg</a> by  Chic*ka %}</p>
+    <content type="html"><![CDATA[<p><img class="<a" src="href="http://farm3.staticflickr.com/2866/10901632363_cc1faaa142_c.jpg">http://farm3.staticflickr.com/2866/10901632363_cc1faaa142_c.jpg</a>" title="by  Chic*ka" ></p>
 
 <h4>1. TCP连接的建立（三握手）</h4>
 
-<p>{% img <a href="http://farm6.staticflickr.com/5481/11084136806_81b69f1f7b.jpg">http://farm6.staticflickr.com/5481/11084136806_81b69f1f7b.jpg</a> %}</p>
+<p><img class="<a" src="href="http://farm6.staticflickr.com/5481/11084136806_81b69f1f7b.jpg">http://farm6.staticflickr.com/5481/11084136806_81b69f1f7b.jpg</a>"></p>
 
 <ul>
 <li><p>  首先服务器端，调用socket， bind， listen系统调用，让服务器端处理对连接的监听状态。</p></li>
@@ -45,7 +45,7 @@
 
 <h4>2.  TCP连接的终止</h4>
 
-<p>{% img <a href="http://farm6.staticflickr.com/5527/11084136816_a014ca4b9b.jpg">http://farm6.staticflickr.com/5527/11084136816_a014ca4b9b.jpg</a> %}</p>
+<p><img class="<a" src="href="http://farm6.staticflickr.com/5527/11084136816_a014ca4b9b.jpg">http://farm6.staticflickr.com/5527/11084136816_a014ca4b9b.jpg</a>"></p>
 
 <ul>
 <li>客户端调用close系统方法，发送FIN分节，此时客户端进入FIN_WAIT_1状态，是主动关闭端。表明客户端没有数据要发送给服务器了。</li>
@@ -72,9 +72,9 @@
 
 <h4>3. 下图展示了完整的状态转换和TCP连接的分组的交换。</h4>
 
-<p>   {% img <a href="http://www.cppblog.com/images/cppblog_com/lapcca/13342/o_tcp%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE.jpg">http://www.cppblog.com/images/cppblog_com/lapcca/13342/o_tcp%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE.jpg</a> TCP连接的状态转换图 %}</p>
+<p>   <img class="<a" src="href="http://www.cppblog.com/images/cppblog_com/lapcca/13342/o_tcp%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE.jpg">http://www.cppblog.com/images/cppblog_com/lapcca/13342/o_tcp%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE.jpg</a>" title="TCP连接的状态转换图" ></p>
 
-<p>  {% img <a href="http://farm6.staticflickr.com/5493/11083740764_05de985c34.jpg">http://farm6.staticflickr.com/5493/11083740764_05de985c34.jpg</a> tcp连接的分节交换图 %}</p>
+<p>  <img class="<a" src="href="http://farm6.staticflickr.com/5493/11083740764_05de985c34.jpg">http://farm6.staticflickr.com/5493/11083740764_05de985c34.jpg</a>" title="tcp连接的分节交换图" ></p>
 ]]></content>
   </entry>
   
@@ -83,7 +83,7 @@
     <link href="http://kuugua.github.io/blog/2013/11/26/unpnotes-osi-model/"/>
     <updated>2013-11-26T19:59:00+08:00</updated>
     <id>http://kuugua.github.io/blog/2013/11/26/unpnotes-osi-model</id>
-    <content type="html"><![CDATA[<p>{% img <a href="http://farm8.staticflickr.com/7436/11064758214_bcbd9b18ff_c.jpg">http://farm8.staticflickr.com/7436/11064758214_bcbd9b18ff_c.jpg</a> by  Chic*ka %}</p>
+    <content type="html"><![CDATA[<p><img class="<a" src="href="http://farm8.staticflickr.com/7436/11064758214_bcbd9b18ff_c.jpg">http://farm8.staticflickr.com/7436/11064758214_bcbd9b18ff_c.jpg</a>" title="by  Chic*ka" ></p>
 
 <ol>
 <li><h4>首先来说说ISO和OSI：</h4>
@@ -98,7 +98,7 @@
 <p>就是我们常说的TCP/IP模型，标准称为：网际网协议族，即五层模型。OSI模型中顶上三层合为一层，称为应用层，这就是我们web客户（浏览器）、Telnet客户、web服务器等其他网络应用所在的层。</p></li>
 <li><h4>套接字编程简介</h4>
 
-<p>{% img <a href="http://farm3.staticflickr.com/2866/11066998623_5ca1248efb.jpg">http://farm3.staticflickr.com/2866/11066998623_5ca1248efb.jpg</a> %}</p>
+<p><img class="<a" src="href="http://farm3.staticflickr.com/2866/11066998623_5ca1248efb.jpg">http://farm3.staticflickr.com/2866/11066998623_5ca1248efb.jpg</a>"></p>
 
 <p>如上图，UNP给我们讲述的套接字编程接口主要是指应用层进入传输层的接口，当然在五层模型中的传输层我们在TCP和UDP之间有间隙，表明存在网络应用绕过传输层而直接使用IPv4或者IPv6.我们称为<code>原始套接字（raw socket）</code>.</p>
 

@@ -1,0 +1,254 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>【原创】TCP连接的建立和关闭  | 因上努力，果上随缘</title>
+
+<meta name="author" content="kuugua"> 
+
+<meta name="description" content="1. TCP连接的建立（三握手） 首先服务器端，调用socket， bind， listen系统调用，让服务器端处理对连接的监听状态。 客户端调用socket获得套接字描述符，调用connect系统调用，主动打开连接，这时发送了一个SYN tcp分节。表示请求建立连接,这时客户端进入 &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="因上努力，果上随缘" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">因上努力，果上随缘</a></h1>
+<h4>A blogging framework for hackers.</h4>
+<nav id="main-nav"><ul>
+	<li><a href="/">主页/Home</a></li>
+	<li><a href="/archives">目录/Archive</a></li>
+	<li><a href="/column">专栏/Column</a></li>
+	<li><a href="https://github.com/kuugua">项目/Projects</a></li>
+	<li><a href="/links">链接/Links</a></li>
+	<li><a href="/aboutme">关于/About Me</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/">主页/Home</a></li>
+	<li><a href="/archives">目录/Archive</a></li>
+	<li><a href="/column">专栏/Column</a></li>
+	<li><a href="https://github.com/kuugua">项目/Projects</a></li>
+	<li><a href="/links">链接/Links</a></li>
+	<li><a href="/aboutme">关于/About Me</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:kuugua.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">【原创】TCP连接的建立和关闭</h2>
+	<div class="entry-content"><p><img src="http://farm3.staticflickr.com/2866/10901632363_cc1faaa142_c.jpg" title="by  Chic*ka" ></p>
+
+<h4>1. TCP连接的建立（三握手）</h4>
+
+<p><img src="http://farm6.staticflickr.com/5481/11084136806_81b69f1f7b.jpg"></p>
+
+<ul>
+<li><p>  首先服务器端，调用socket， bind， listen系统调用，让服务器端处理对连接的监听状态。</p></li>
+<li><p> 客户端调用socket获得套接字描述符，调用connect系统调用，主动打开连接，这时发送了一个SYN tcp分节。表示请求建立连接,这时客户端进入 SYN_SENT状态， 是主动打开连接端。</p></li>
+<li><p> 服务器端接收到SYN后，发送一个SYN和对ACK的确认消息。表示同意接受连接，并且确认请求的ack。这时服务器端进入SYN_RCD状态，是被动打开连接端。</p></li>
+<li><p> 客户端收到ACK后进入ESTABLISHED状态，接着发送对服务器端的SYN消息的确认。服务器接受到确认后，也进入ESTABLISHED状态。至此，tcp连接建立。</p></li>
+</ul>
+
+
+<p>连接的建立一共发送了三个tcp分节。所以称之为<code>三握手</code>。</p>
+
+<p>其中的MSS称为TCP分节的选项字段（客户端告诉服务器其能接受的最大的分节的大小为536字节，而服务器为1460字节），同时还有窗口的规模选项，时间戳选项等。</p>
+
+<h4>1.1为什么需要最后一次的确认ack分节呢？</h4>
+
+<p>理由：</p>
+
+<pre><code>    tcp提供的是可靠的通信，若只要前两个分节，那么当客户端第一次调用connect申请建立连接时的tcp分节在网络中“迷路”了,那么客户端收不到服务器的确认，则会重发一个SYN分节，然后服务器收到后确认了，这时连接建立了（假设不需要最后一个确认）并且交换完数据后关闭连接，这时迷路的第一个SYN分节被服务器接受到了，这时服务器以为是一次客户端发来新建立的连接请求，回复确认，这时就建立了不必要的连接。而有最后一个确认的话，客户端接受到服务器又一次确认，客户端判断是上次迷路的SYN的确认，不回复ack，就避免了多余连接被建立。
+</code></pre>
+
+<h4>2.  TCP连接的终止</h4>
+
+<p><img src="http://farm6.staticflickr.com/5527/11084136816_a014ca4b9b.jpg"></p>
+
+<ul>
+<li>客户端调用close系统方法，发送FIN分节，此时客户端进入FIN_WAIT_1状态，是主动关闭端。表明客户端没有数据要发送给服务器了。</li>
+<li>服务器接受到FIN后返回一个ACK，并进入CLOSE_WAIT状态，是被动关闭端。</li>
+<li>客户端接受到服务器的ACK后，进入了FIN_WAIT_2状态，这个时候tcp的全双工的一半（客户端发送数据给服务器方向）关闭了。称为半关闭状态。</li>
+<li>服务器此时还是可以给客户端发送数据的，当发送完数据后，服务器觉得可以关闭连接了调用close方法，也发送一个FIN分节。服务器进入LAST_ACK状态。</li>
+<li>客户端接受到FIN后，进入TIME_WAI状态，并发送一个ACK确认。服务器收到ACK确认后，进入CLOSED状态。整个连接关闭，即全双工通信的另一半关闭。</li>
+</ul>
+
+
+<h4>2.1 为什么需要TIME_WAIT状态存在。</h4>
+
+<p>理由：</p>
+
+<p>可靠的实现TCP全双工的关闭。</p>
+
+<pre><code>TIME_WAIT状态的存在使得服务器发送的FIN分节得到确认，若不存在TIME_WAIT状态，则服务器得不到FIN的确认，或者得到是RST（另一种类型的TCP，这时服务器会解释成错误）则无法正常关闭全双工另一半的连接。
+</code></pre>
+
+<p>保证老的重复的分节在网络中消逝。</p>
+
+<pre><code>假设在12.06.25.253 的1500端口与 206.25.103.250 的端口21之间存在过连接（先已经关闭连接了），并有tcp分节在网络中因延时等“迷路”了。当在这个连个对端再次建立连接的时候，这个分节被服务器收到了，这时tcp分节并不是这次连接的数据，但是有TIME_WAIT状态，持续的时间是MSL的两倍。就能保证遗留的tcp分节在网络中被丢弃，避免了对新的连接的干扰。
+</code></pre>
+
+<h4>3. 下图展示了完整的状态转换和TCP连接的分组的交换。</h4>
+
+<p>   <img src="http://www.cppblog.com/images/cppblog_com/lapcca/13342/o_tcp%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE.jpg" title="TCP连接的状态转换图" ></p>
+
+<p>  <img src="http://farm6.staticflickr.com/5493/11083740764_05de985c34.jpg" title="tcp连接的分节交换图" ></p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-27T21:02:00+08:00" pubdate data-updated="true">Nov 27<span>th</span>, 2013</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/unpnotes/'>UNPnotes</a>
+
+</div>
+
+
+	
+</div></article>
+
+	<div class="sharing">
+  
+  
+  
+  
+    <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1376148757405950" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+  
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    kuugua
+
+<br>
+Powered by Octopress.
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'kugua';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kuugua.github.io/blog/2013/11/27/unpnotes-tcpconnect-tcpclose/';
+        var disqus_url = 'http://kuugua.github.io/blog/2013/11/27/unpnotes-tcpconnect-tcpclose/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+</body>
+</html>

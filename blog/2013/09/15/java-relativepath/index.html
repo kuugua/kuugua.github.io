@@ -1,0 +1,266 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>【转载】java项目中相对路径的处理  | 因上努力，果上随缘</title>
+
+<meta name="author" content="kuugua"> 
+
+<meta name="description" content="File类是用来构造文件或文件夹的类,在其构造函数中要求传入一个String类型的参数,用于指示文件所在的路径.以前一直使用绝对路径作为参数,其实这里也可以使用相对路径.使用绝对路径不用说,很容易就能定位到文件,那么使用了相对路径jvm如何定位文件的呢? 按照jdk Doc上的说法” &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="因上努力，果上随缘" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">因上努力，果上随缘</a></h1>
+<h4>A blogging framework for hackers.</h4>
+<nav id="main-nav"><ul>
+	<li><a href="/">主页/Home</a></li>
+	<li><a href="/archives">目录/Archive</a></li>
+	<li><a href="/column">专栏/Column</a></li>
+	<li><a href="https://github.com/kuugua">项目/Projects</a></li>
+	<li><a href="/links">链接/Links</a></li>
+	<li><a href="/aboutme">关于/About Me</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/">主页/Home</a></li>
+	<li><a href="/archives">目录/Archive</a></li>
+	<li><a href="/column">专栏/Column</a></li>
+	<li><a href="https://github.com/kuugua">项目/Projects</a></li>
+	<li><a href="/links">链接/Links</a></li>
+	<li><a href="/aboutme">关于/About Me</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:kuugua.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">【转载】java项目中相对路径的处理</h2>
+	<div class="entry-content"><p><img src="http://farm8.staticflickr.com/7290/9739627114_2323f14607_c.jpg"></p>
+
+<p>File类是用来构造文件或文件夹的类,在其构造函数中要求传入一个<code>String</code>类型的参数,用于指示文件所在的路径.以前一直使用绝对路径作为参数,其实这里也可以使用相对路径.使用绝对路径不用说,很容易就能定位到文件,那么使用了相对路径<code>jvm</code>如何定位文件的呢?</p>
+
+<p>按照<code>jdk Doc</code>上的说法”绝对路径名是完整的路径名，不需要任何其他信息就可以定位自身表示的文件。相反，相对路径名必须使用来自其他路径名的信息进行解释。默认情况下，<code>java.io</code> 包中的类总是根据当前用户目录来分析相对路径名。此目录由系统属性<code>user.dir</code>指定，通常是 Java 虚拟机的调用目录.”</p>
+
+<p>相对路径顾名思义,相对于某个路径,那么究竟相对于什么路径我们必须弄明白.按照上面jdk文档上讲的这个路径是”当前用户目录”也就是”java虚拟机的调用目录”.更明白的说这个路径其实是我们在哪里调用jvm的路径.举个例子:</p>
+
+<ul>
+<li>先说在dos下的情况，假设有一java源文件<code>Example.java</code>在d盘根目录下,该文件不含package信息.我们进入命令行窗口,然后使用”d:”命令切换到d盘根目录下,然后用<code>javac Example.java</code>来编译此文件,编译无错后,会在d盘根目录下自动生成<code>Example.class</code>文件.我们在调用<code>java Example</code>来运行该程序.此时我们已经启动了一个<code>jvm</code>,这个<code>jvm</code>是在d盘根目录下被启动的,所以此<code>jvm</code>所加载的程序中File类的相对路径也就是相对这个路径的,即d盘根目录:<code>D:\.</code>同时” 当前用户目录”也是<code>D:\.</code>在<code>System.getProperty(“user.dir”)</code>;系统变量<code>user.dir</code>存放的也是这个值.
+我们可以多做几次试验,把<code>Example.class</code>移动到不同路径下,同时在那些路径下,执行<code>java Example</code>命令启动<code>jvm</code>,我们会发现这个”当前用户目录”是不断变化的,它的路径始终和我们在哪启动<code>jvm</code>的路径是一致的.
+搞清了这些,我们可以使用相对路径来创建文件,例如:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="err">“</span><span class="n">a</span><span class="o">.</span><span class="na">txt</span><span class="err">”</span><span class="o">);</span>
+</span><span class='line'><span class="n">File</span><span class="o">.</span><span class="na">createNewFile</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>假设<code>jvm</code>是在<code>D:\</code>下启动的,那么<code>a.txt</code>就会生成在<code>D:\a.txt</code>;
+此外,这个参数还可以使用一些常用的路径表示方法,例如<code>”.”</code>或<code>”.\”</code>代表当前目录,这个目录也就是<code>jvm</code>启动路径.所以如下代码能得到当前目录完整路径:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">File</span> <span class="n">f</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="err">“</span><span class="o">.</span><span class="err">”</span><span class="o">);</span>
+</span><span class='line'><span class="n">String</span> <span class="n">absolutePath</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="na">getAbsolutePath</span><span class="o">();</span>
+</span><span class='line'><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">absolutePath</span><span class="o">);</span><span class="c1">//D:\</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>说说在<code>eclipse</code>中的情况:
+<code>Eclipse</code>中启动<code>jvm</code>都是在项目根路径上启动的.比如有个项目名为<code>blog</code>,其完整路径为:<code>D:\work\IDE\workspace\blog</code>.那么这个路径就是<code>jvm</code>的启动路径了.所以以上代码如果在<code>eclipse</code>里运行,则输出结果为<code>” D:\work\IDE\workspace\blog.”</code></p></li>
+<li><p>Tomcat中的情况.
+如果在<code>tomcat</code>中运行<code>web</code>应用,此时,如果我们在某个类中使用如下代码:</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">File</span> <span class="n">f</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="err">“</span><span class="o">.</span><span class="err">”</span><span class="o">);</span>
+</span><span class='line'><span class="n">String</span> <span class="n">absolutePath</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="na">getAbsolutePath</span><span class="o">();</span>
+</span><span class='line'><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">absolutePath</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么输出的将是<code>tomcat</code>下的<code>bin</code>目录.我的机器就是<code>” D:\work\server\jakarta-tomcat-5.0.28\bin\.”</code>,由此可以看出<code>tomcat</code>服务器是在<code>bin</code>目录下启动<code>jvm</code>的.其实是在<code>bin</code>目录下的<code>” catalina.bat”</code>文件中启动<code>jvm</code>的.</p>
+
+<p>总结：<code>默认情况下，java.io 包中的类总是根据当前用户目录来分析相对路径名。此目录由系统属性user.dir指定，通常是Java虚拟机的调用目录.我们可以通过以下代码进行测试后，在进行处理；</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">File</span> <span class="n">f</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="err">“</span><span class="o">.</span><span class="err">”</span><span class="o">);</span>
+</span><span class='line'><span class="n">String</span> <span class="n">absolutePath</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="na">getAbsolutePath</span><span class="o">();</span>
+</span><span class='line'><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">absolutePath</span><span class="o">);</span><span class="c1">//D:\</span>
+</span><span class='line'><span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="err">“</span><span class="n">user</span><span class="o">.</span><span class="na">dir</span><span class="err">”</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>原文地址：<a href="http://www.blogjava.net/zhangchao/archive/2009/04/15/265644.html">http://www.blogjava.net/zhangchao/archive/2009/04/15/265644.html</a></p>
+
+<p>（略加了修改）</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-15T18:52:00+08:00" pubdate data-updated="true">Sep 15<span>th</span>, 2013</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/javashi-yi/'>java拾遗</a>
+
+</div>
+
+
+	
+</div></article>
+
+	<div class="sharing">
+  
+  
+  
+  
+    <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1376148757405950" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+  
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    kuugua
+
+<br>
+Powered by Octopress.
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'kugua';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kuugua.github.io/blog/2013/09/15/java-relativepath/';
+        var disqus_url = 'http://kuugua.github.io/blog/2013/09/15/java-relativepath/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+</body>
+</html>

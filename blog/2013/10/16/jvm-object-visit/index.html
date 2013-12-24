@@ -1,0 +1,216 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>【原创】jvm中对象的访问方式  | 因上努力，果上随缘</title>
+
+<meta name="author" content="kuugua"> 
+
+<meta name="description" content="在不同的的jvm中，实现对象的访问方式会有所不同，其中主流的访问方式有两种：使用句柄和直接指针。 1. 句柄方式： jvm会在堆中划分一部分内存存放句柄，称为句柄池，reference引用存储着句柄的地址，而句柄中包含了对象实例数据的指针和对象类型数据指针（指向方法区中对象类型信息） &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="因上努力，果上随缘" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">因上努力，果上随缘</a></h1>
+<h4>A blogging framework for hackers.</h4>
+<nav id="main-nav"><ul>
+	<li><a href="/">主页/Home</a></li>
+	<li><a href="/archives">目录/Archive</a></li>
+	<li><a href="/column">专栏/Column</a></li>
+	<li><a href="https://github.com/kuugua">项目/Projects</a></li>
+	<li><a href="/links">链接/Links</a></li>
+	<li><a href="/aboutme">关于/About Me</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/">主页/Home</a></li>
+	<li><a href="/archives">目录/Archive</a></li>
+	<li><a href="/column">专栏/Column</a></li>
+	<li><a href="https://github.com/kuugua">项目/Projects</a></li>
+	<li><a href="/links">链接/Links</a></li>
+	<li><a href="/aboutme">关于/About Me</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:kuugua.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">【原创】jvm中对象的访问方式</h2>
+	<div class="entry-content"><p><img src="http://farm8.staticflickr.com/7284/9046538774_13144c8e0d_c.jpg" title="by Chic*ka" ></p>
+
+<p>在不同的的jvm中，实现对象的访问方式会有所不同，其中主流的访问方式有两种：使用句柄和直接指针。</p>
+
+<p><strong>1. 句柄方式：</strong></p>
+
+<p>jvm会在堆中划分一部分内存存放句柄，称为句柄池，reference引用存储着句柄的地址，而句柄中包含了对象实例数据的指针和对象类型数据指针（指向方法区中对象类型信息）</p>
+
+<p><img src="http://farm3.staticflickr.com/2829/10456407563_092698dc8a.jpg" title="句柄方式" ></p>
+
+<p>使用句柄方式的优点是，reference中存放的是句柄的地址，堆中对象移动后，句柄地址变化，而reference中的内容不变。</p>
+
+<p><strong>2. 直接指针方式：</strong></p>
+
+<p>在直接指针方式中，reference中直接存放着对象的地址，而对象中存放着对对象类型数据的指针。</p>
+
+<p><img src="http://farm3.staticflickr.com/2886/10456406993_c33cf7b1e6.jpg" title="直接指针方式" ></p>
+
+<p>直接指针方式的优点是访问速度比句柄方式快，因为减少了一次指针的定位的开销。这在java中对象访问频繁的情况能节约很大的执行成本。Sun HotSpot 使用的是直接指针方式。</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-16T21:37:00+08:00" pubdate data-updated="true">Oct 16<span>th</span>, 2013</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/chu-she-jvm/'>初涉jvm</a>
+
+</div>
+
+
+	
+</div></article>
+
+	<div class="sharing">
+  
+  
+  
+  
+    <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1376148757405950" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+  
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    kuugua
+
+<br>
+Powered by Octopress.
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'kugua';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kuugua.github.io/blog/2013/10/16/jvm-object-visit/';
+        var disqus_url = 'http://kuugua.github.io/blog/2013/10/16/jvm-object-visit/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+</body>
+</html>

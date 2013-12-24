@@ -1,0 +1,316 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>【转载】chrome developer tool 调试技巧  | 因上努力，果上随缘</title>
+
+<meta name="author" content="kuugua"> 
+
+<meta name="description" content="这篇文章是根据目前 chrome 稳定版(19.0.1084.52 m)写的, 因为 google 也在不断完善chrome developer tool, 所以 chrome 版本不同可能稍有差别. 一些快捷键也是 windows 上的, mac 下的应该大同小异. 常规的断点相关的 &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="因上努力，果上随缘" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">因上努力，果上随缘</a></h1>
+<h4>A blogging framework for hackers.</h4>
+<nav id="main-nav"><ul>
+	<li><a href="/">主页/Home</a></li>
+	<li><a href="/archives">目录/Archive</a></li>
+	<li><a href="/column">专栏/Column</a></li>
+	<li><a href="https://github.com/kuugua">项目/Projects</a></li>
+	<li><a href="/links">链接/Links</a></li>
+	<li><a href="/aboutme">关于/About Me</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/">主页/Home</a></li>
+	<li><a href="/archives">目录/Archive</a></li>
+	<li><a href="/column">专栏/Column</a></li>
+	<li><a href="https://github.com/kuugua">项目/Projects</a></li>
+	<li><a href="/links">链接/Links</a></li>
+	<li><a href="/aboutme">关于/About Me</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:kuugua.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">【转载】chrome Developer Tool 调试技巧</h2>
+	<div class="entry-content"><p><img src="http://farm4.staticflickr.com/3780/10167118205_3fe297e136_c.jpg" title="by Chic*ka" ></p>
+
+<p>这篇文章是根据目前 chrome 稳定版(19.0.1084.52 m)写的, 因为 google 也在不断完善chrome developer tool, 所以 chrome 版本不同可能稍有差别. 一些快捷键也是 windows 上的, mac 下的应该大同小异.</p>
+
+<p>常规的断点相关的 breakpoint/conditional-breakpoint/call-stack/watch-expressions 等就不涉及了.</p>
+
+<h3>1. Beautify Javascript</h3>
+
+<p>js 文件在上线前一般都会压缩下, 压缩的 javascript 几乎没有可读性, 几乎无法设定断点. 在 Scripts 面板下面有个 Pretty print 按钮(这种符号 {}), 点击会将压缩 js 文件格式化缩进规整的文件, 这时候在设定断点可读性就大大提高了.</p>
+
+<p><img src="http://ued.taobao.org/blog/wp-content/uploads/2012/06/script-pretty-before.jpg"></p>
+
+<p><img src="http://ued.taobao.org/blog/wp-content/uploads/2012/06/script-pretty-after.jpg"></p>
+
+<h3>2. 查看元素绑定了哪些事件</h3>
+
+<p>在 Elements 面板, 选中一个元素, 然后在右侧的 Event Listeners 下面会按类型出这个元素相关的事件, 也就是在事件捕获和冒泡阶段会经过的这个节点的事件.</p>
+
+<p>在 Event Listeners 右侧下拉按钮中可以选择 Selected Node Only 只列出这个节点上的事件，展开事件后会显示出这个事件是在哪个文件中绑定的, 点击文件名会直接跳到绑定事件处理函数所在行, 如果 js 是压缩了的, 可以先 Pretty print 下, 然后再查看绑定的事件.</p>
+
+<p><img src="http://ued.taobao.org/blog/wp-content/uploads/2012/06/element-events.jpg"></p>
+
+<h3>3. Ajax 时中断</h3>
+
+<p>在 Scripts 面板右侧有个 XHR Breakpoints, 点右侧的 + 会添加一个 xhr 断点, 断点是根据 xhr 的 url 匹配中断的, 如果不写匹配规则会在所有 ajax, 这个匹配只是简单的字符串查找, 发送前中断, 在中断后再在 Call Stack 中查看时那个地方发起的 ajax 请求</p>
+
+<h3>4. 页面事件中断</h3>
+
+<p>除了给设定常规断点外, 还可以在某一特定事件发生时中断(不针对元素) , 在 Scripts 面板右侧, 有个 Event Listener Breakpoints, 这里列出了支持的所有事件, 不仅 click, keyup 等事件, 还支持 Timer(在 setTimeout setInterval 处理函数开始执行时中断), onload, scroll 等事件.</p>
+
+<p><img src="http://ued.taobao.org/blog/wp-content/uploads/2012/06/breakpoints.jpg"></p>
+
+<h3>5. Javascript 异常时中断</h3>
+
+<p>Pretty print 左侧的按钮是开启 js 抛异常时中断的开关, 有两种模式：在所有异常处中断, 在未捕获的异常处中断. 在异常处中断后就可以查看为什么抛出异常了</p>
+
+<h3>6. DOM Level 3 Event 事件中断</h3>
+
+<p>在 Elements 面板, 选中一个元素右键, 有两个选项：Break on subtree modifications, Break on attributes modifications, 这两个对应 DOM Level 3 Event 中的<a href="http://www.w3.org/TR/DOM-Level-3-Events/#event-type-DOMSubtreeModified">DOMSubtreeModified</a> , <a href="http://www.w3.org/TR/DOM-Level-3-Events/#event-type-DOMAttrModified">DOMSubtreeModified</a>
+事件 在 Scripts 面板 DOM Breakpoints 处会列出所有 level3 的 event 中断</p>
+
+<p><img src="http://ued.taobao.org/blog/wp-content/uploads/2012/06/dom-event-level3.jpg"></p>
+
+<h3>7. 所有 js 文件中搜索&amp;查找 js 函数定义</h3>
+
+<ul>
+<li>在 chrome developer tool 打开的情况下, 按 ctrl + shift + F, 在通过 js 钩子查找代码位置时很有用, 查找支持正则表达式</li>
+<li>查找函数定义: ctrl + shift + 0 (在 Scripts panel 下)</li>
+<li>查找文件: ctrl + o  (在 Scripts panel 下)</li>
+<li>更多快捷键: 在 chrome developer tool 中按 ? 查看帮助</li>
+</ul>
+
+
+<p><img src="http://ued.taobao.org/blog/wp-content/uploads/2012/06/multifile-find.jpg"></p>
+
+<h3>8. command line api</h3>
+
+<ul>
+<li>$(id_selector) 这个与页面是否有 jQuery 无关</li>
+<li>$$(css_selector)</li>
+<li>$0, $1, $2, $3, $4
+
+<ul>
+<li>Elements 面板中最近选中的 5 个元素, 最后选择的是 $0</li>
+<li>这个 5 个变量时先进先出的</li>
+</ul>
+</li>
+<li>copy(str) 复制 str 到剪切板, 在断点时复制变量时有用</li>
+<li>monitorEvents(object[, types])/unmonitorEvents(object[, types])
+
+<ul>
+<li>当 object 上 types 事件发生时在 console 中输出 event 对象</li>
+</ul>
+</li>
+<li><p>更多 console api 请 console.log(console) 或 <a href="http://getfirebug.com/wiki/index.php/Console_API#console.trace.28.29">点击</a></p></li>
+<li><p>更多 command line api <a href="http://getfirebug.com/wiki/index.php/Command_Line_API">点击</a></p></li>
+</ul>
+
+
+<p><img src="http://ued.taobao.org/blog/wp-content/uploads/2012/06/monitorEvents.jpg"></p>
+
+<h3>9. 实时修改 js 代码生效</h3>
+
+<ul>
+<li><p>页面外部 js 文件在 Scripts 面板中可以直接修改, 改完后按 ctrl + S 保存, 会立即生效</p></li>
+<li><p>注意:</p>
+
+<blockquote><ul>
+<li>经测试不支持 html 页面中 js 修改</li>
+<li>经过 Pretty print 格式化的脚本不支持修改</li>
+</ul>
+</blockquote></li>
+</ul>
+
+
+<h3>10. console 中执行的代码可断点</h3>
+
+<p>在 console 中输入代码的最后一行加上 //@ sourceURL=filename.js, 会在 Scripts 面板中有个叫 filename.js 的文件, 然后他就和外部 js 文件一样了</p>
+
+<p><img src="http://ued.taobao.org/blog/wp-content/uploads/2012/06/eval.jpg"></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">hello</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;say hi&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">//@ sourceURL=hello.js</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="http://ued.taobao.org/blog/?p=5534">点击阅读原文</a></p>
+
+<h3>参考链接:</h3>
+
+<p><a href="https://developers.google.com/chrome-developer-tools/docs/overview">chrome developer tool doc</a></p>
+
+<p><a href="http://www.youtube.com/watch?v=N8SS-rUEZPg">Google I/O 2011: Chrome Dev Tools Reloaded</a></p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-27T16:56:00+08:00" pubdate data-updated="true">Oct 27<span>th</span>, 2013</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/webqian-duan/'>Web前端</a>
+
+</div>
+
+
+	
+</div></article>
+
+	<div class="sharing">
+  
+  
+  
+  
+    <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1376148757405950" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+  
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    kuugua
+
+<br>
+Powered by Octopress.
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'kugua';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kuugua.github.io/blog/2013/10/27/webfront-chrome-developer-tool/';
+        var disqus_url = 'http://kuugua.github.io/blog/2013/10/27/webfront-chrome-developer-tool/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+</body>
+</html>
