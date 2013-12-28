@@ -113,6 +113,246 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/2013/12/27/haha/">
+		
+			Haha</a>
+	</h2>
+	<div class="entry-content">
+		<p><img class="http://" src="farm4.staticflickr.com/3722/11515706555_df428e4415_c.jpg" title="by Hamilton!" ></p>
+
+<h4>javascript对象的属性检索</h4>
+
+<p>今天提提javascript中对象值得一提的东西。</p>
+
+<h5>1. 如果访问一个对象的属性不存在，那么返回undefine。</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// if a property is not exsist ,then return undefine</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">stooge</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">firstName</span><span class="o">:</span> <span class="s2">&quot;Jerome&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;last_name&#39;</span><span class="o">:</span> <span class="s2">&quot;Howard&quot;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">stooge</span><span class="p">.</span><span class="nx">firstName</span><span class="p">);</span>  <span class="c1">//Jerome</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">stooge</span><span class="p">.</span><span class="nx">nikeName</span><span class="p">);</span> <span class="c1">// undefine</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>2. 我们可以给用 &ldquo;||&rdquo; 运算符给对象的属性赋默认值。</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//use &#39;||&#39; operator to set varliable default value;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">nikeName1</span>  <span class="o">=</span> <span class="nx">stooge</span><span class="p">.</span><span class="nx">nikeName</span> <span class="o">||</span> <span class="s2">&quot;none&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">if</span><span class="p">(</span><span class="nx">nikeName1</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;nikeName1 is: &quot;</span> <span class="o">+</span> <span class="kc">true</span><span class="p">);</span> <span class="c1">//nikeName1 is true</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">nikeName1</span><span class="p">);</span>  <span class="c1">//none</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>3. 如果我们访问一个对象的不存在的属性的属性，那么将会跑TypeError错误。</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">stooge</span><span class="p">.</span><span class="nx">nikeName</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span> <span class="c1">//TypeError</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>为了避免这种情况的发生，我们可以使用&#8221;&amp;&amp;&ldquo;运算符.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//to prevent this case, we can use &#39;&amp;&amp;&#39; operator.</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">nikeNam2</span> <span class="o">=</span> <span class="p">(</span><span class="nx">stooge</span><span class="p">.</span><span class="nx">nikeName</span> <span class="o">&amp;&amp;</span> <span class="nx">stooge</span><span class="p">.</span><span class="nx">nikeName</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">nikeNam2</span><span class="p">);</span>
+</span><span class='line'><span class="k">if</span><span class="p">(</span><span class="nx">nikeNam2</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;nikeNam2 is: &quot;</span> <span class="o">+</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;nikeNam2 is: &quot;</span> <span class="o">+</span> <span class="kc">false</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>4. 我们都知道javascrip是基于原型继承实现的面向对象，与java基于类的继承不同的一种面向对象实现方式。javascript中每个新创建的对象都是继承了另一个对象的属性。为了让这种关系明显的显示出来我们可以定义如下的方法。</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//Prototype 原型</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">beget</span><span class="p">);</span> <span class="c1">//undefine</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">beget</span> <span class="o">!==</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">){</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">F</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">();</span>
+</span><span class='line'>      <span class="nx">F</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nx">o</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">return</span> <span class="k">new</span> <span class="nx">F</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">another_stooge</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">stooge</span><span class="p">);</span> <span class="c1">//another_stooge 继承于stooge。</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;another_stooge: &quot;</span> <span class="o">+</span> <span class="nx">another_stooge</span><span class="p">.</span><span class="nx">firstName</span><span class="p">);</span> <span class="c1">//Jerome（继承来的属性）</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;another_stooge: &quot;</span> <span class="o">+</span> <span class="nx">another_stooge</span><span class="p">.</span><span class="nx">fun</span><span class="p">());</span> <span class="c1">//fun (继承来的方法)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>关于javascript的原型继承，属于javascript中很大的一部分内容，我们后面还会讲到。</p>
+
+<h4>javascript对象属性的遍历</h4>
+
+<h5>5. 既然javascript中的对象继承了另一个对象的属性和方法，那么我们在访问这个对象的时候，通常我们会有这样的需求，就是想访问这个对象本身扩展的所有的属性。解决方法如下。</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//我们便于测试先给another_stooge添加自己的属性和方法。</span>
+</span><span class='line'><span class="nx">another_stooge</span><span class="p">.</span><span class="nx">nikeName</span> <span class="o">=</span> <span class="s2">&quot;Bob&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">another_stooge</span><span class="p">.</span><span class="nx">fun2</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;another_stooge&#39;s function....&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//过滤继承而来的属性和方法</span>
+</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="nx">name</span> <span class="k">in</span> <span class="nx">another_stooge</span><span class="p">){</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="nx">another_stooge</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">name</span><span class="p">)){</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span>  <span class="c1">//nikeName fun2</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>6.如果我们有让对象的属性按我们想要的顺序输出，那么我们可以这样做。</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//定义一个循环变量</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">i</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//定义顺序数组</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">properties</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>  <span class="s1">&#39;nikeName&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;firstName&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;last_name&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;fun&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;fun2&#39;</span>
+</span><span class='line'><span class="p">];</span>
+</span><span class='line'><span class="c1">//循环按顺序输出属性。</span>
+</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">properties</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; : &quot;</span><span class="o">+</span> <span class="nx">another_stooge</span><span class="p">[</span><span class="nx">properties</span><span class="p">[</span><span class="nx">i</span><span class="p">]]);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>javascript对象属性的删除</h4>
+
+<h5>6.当对象的属性与继承而来的属性同名时，会覆盖继承而来的属性值。但删除操作对于对象自己的属性是有作用的对继承而来属性是没有作用的。</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//delete</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">another_stooge</span><span class="p">.</span><span class="nx">firstName</span><span class="p">)</span> <span class="c1">// Jerome</span>
+</span><span class='line'><span class="nx">another_stooge</span><span class="p">.</span><span class="nx">firstName</span> <span class="o">=</span> <span class="s2">&quot;Micheal&quot;</span><span class="p">;</span><span class="c1">//覆盖继承而来的属性。</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">another_stooge</span><span class="p">.</span><span class="nx">firstName</span><span class="p">)</span> <span class="c1">//Micheal</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">delete</span> <span class="nx">another_stooge</span><span class="p">.</span><span class="nx">firstName</span><span class="p">;</span>   <span class="c1">// true</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">another_stooge</span><span class="p">.</span><span class="nx">firstName</span><span class="p">)</span> <span class="c1">// Jerome //删除后，又访问了继承而来的值，</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">delete</span> <span class="nx">another_stooge</span><span class="p">.</span><span class="nx">firstName</span><span class="p">;</span> <span class="c1">//true; 但是没有真实的删除。</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">another_stooge</span><span class="p">.</span><span class="nx">firstName</span><span class="p">)</span> <span class="c1">// Jerome</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>`</p>
+
+<p>这是因为javascript基于原型的设计，如果可以删除继承而来的属性，那么将会影响所有继承于这个对象的其他对象，这样整个javascript的对象系统就乱了。</p>
+
+<p>BTW, 祝大伙平安夜快乐，圣诞快乐 ：)</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-27T20:00:00+08:00" pubdate data-updated="true">Dec 27<span>th</span>, 2013</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/javascript/'>javascript</a>
+
+</div>
+
+
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/2013/12/24/javascript-object/">
 		
 			【原创】javascript对象值得提的一些事</a>
@@ -1774,113 +2014,6 @@ $(document).ready(
 
 
 <time datetime="2013-09-26T22:17:00+08:00" pubdate data-updated="true">Sep 26<span>th</span>, 2013</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/chu-she-jvm/'>初涉jvm</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/09/21/jvm-javamemorymodel/">
-		
-			【原创】java运行时內存模型</a>
-	</h2>
-	<div class="entry-content">
-		<p><img src="http://farm4.staticflickr.com/3733/9693627701_273b0b9600_c.jpg" title="by Chic*ka" ></p>
-
-<h3><strong>一. 引言：</strong></h3>
-
-<p>众所周知java的内存管理是由jvm来代劳的，这使得程序员在敲代码的时候简单了很多，但是一旦出现了内存泄漏或者溢出方面的问题，如果不了解虚拟机的管理内存的原理，那排错起来将会很艰难。</p>
-
-<h3><strong>二.java内存模型：</strong></h3>
-
-<p>jvm在执行java程序的过程中会把内存划分为若干个不同的数据区域，这些区域的生命周期和作用各不相同。根据《java虚拟机规范（第二版）》jvm把所管理的内存划分爲如下图几个区域：</p>
-
-<p><img src="http://img.my.csdn.net/uploads/201209/29/1348934141_8447.jpg"></p>
-
-<h4>1. 程序计数器（Program Counter Register）</h4>
-
-<p><code>作用：</code>
-程序计数器是一块较小的内存空间，它是当前线程所执行的字节码的行号指示器。字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、异常处理、线程恢复等基础功能都需要依赖计数器完成。为了线程切换后能恢复到正确的执行位置，每条线程都需要由一个独立的程序计数器，各个线程之间的计数器互不影晌，独立存储，是<code>“线程私有”</code>的内存。</p>
-
-<p><code>生命周期：</code>
-其生命周期与线程生命周期一致。</p>
-
-<h4>2. java虚拟机栈（java Virtual Machine Stacks）</h4>
-
-<p><code>作用：</code>
-每个方法执行的时候都会开辟栈空间，我们称之爲“栈帧”。栈帧主要用于存储方法体内的局部变量表，操作数栈，动态链接，方法出口等信息。每个方法调用完后，对映着一个栈帧在虚拟机栈中从入栈到出栈的过程。</p>
-
-<p>局部变量表存放了编译器可知的各种基本数据类型(boolean、byte、char、short、int、float、long、double)、对象引用(引用指针，并非对象本身)，其中64位长度的long和double类型的数据会占用2个局部变量的空间，其余数据类型只占1个。局部变量表所需的内存空间在编译期间完成分配，当进入一个方法时，这个方法需要在栈帧中分配多大的局部变量是完全确定的，在运行期间栈帧不会改变局部变量表的大小空间。</p>
-
-<p><code>生命周期：</code>
-属于<code>“线程私有”</code>的内存，其生命周期与线程生命周期一致。</p>
-
-<p><code>异常:</code>
-jvm规范中规定了这个区域的两种异常：当线程请求的栈深度大于虚拟机所允许的深度时，将抛出StackOverflowError异常。栈深度大多数情况下达到1000-2000完全没问题（java虚拟机栈大小/每个栈帧大小），对正常的方法调用这个深度是够用了，所以出现了这个异常，一般可能会是递归时进入了死循环导致。 另一种是如果虚拟机栈可以动态扩展（一般都支持），当扩展时无法申请到足够的存储器时就会抛出OutOfMemoryError异常。</p>
-
-<h4>3. 本地方法栈（Native Method Stack）</h4>
-
-<p>与虚拟机栈基本类似，区别在于虚拟机栈为虚拟机执行的java方法服务，而本地方法栈则是为Native方法服务。由的虚拟机（譬如Sun HotSpot虚拟机） 直接把本地方法栈和虚拟机栈合二爲一。与虚拟机栈一样，本地方法栈区域也会抛出StackOverflowError异常和OutOfMemoryError异常。其生命周期也是与线程一致，属于线程私有。</p>
-
-<h4>4. java堆（java Heap/ GC堆）</h4>
-
-<p><code>作用：</code>
-对于大多数应用来说，java堆是jvm管理的内存中最大的一块。是被各个线程共享的内存区域，在虚拟机创建时啓动。此内存区域的唯一目的就是存放对象实例，几乎所有的实例对象和数组都在这里分配。其大小通过-Xms(最小值)和-Xmx(最大值)参数设置，-Xms为JVM启动时申请的最小内存，默认为操作系统物理内存的1/64但小于1G，-Xmx为JVM可申请的最大内存，默认为物理内存的1/4但小于1G，默认当空余堆内存小于40%时，JVM会增大Heap到-Xmx指定的大小，可通过-XX:MinHeapFreeRation=来指定这个比列；当空余堆内存大于70%时，JVM会减小heap的大小到-Xms指定的大小，可通过XX:MaxHeapFreeRation=来指定这个比列，对于运行系统，为避免在运行时频繁调整Heap的大小，通常-Xms与-Xmx的值设成一样。</p>
-
-<p>由于现在收集器都是采用分代收集算法，堆被划分为新生代和老年代。新生代主要存储新创建的对象和尚未进入老年代的对象。老年代存储经过多次新生代GC(Minor GC)任然存活的对象。但是无论如何划分，都与存放内容无关，无论哪个区域存的都是实例对象。这样划分只是爲了更好的分配内存和回收内存</p>
-
-<p><code>新生代：</code>
- 程序新创建的对象都是从新生代分配内存，新生代由Eden Space和两块相同大小的Survivor Space(通常又称S0和S1或From和To)构成，可通过-Xmn参数来指定新生代的大小，也可以通过-XX:SurvivorRation来调整Eden Space及Survivor Space的大小。</p>
-
-<p><code>老年代：</code>
-用于存放经过多次新生代GC任然存活的对象，例如缓存对象，新建的对象也有可能直接进入老年代，主要有两种情况：①.大对象，可通过启动参数设置-XX:PretenureSizeThreshold=1024(单位为字节，默认为0)来代表超过多大时就不在新生代分配，而是直接在老年代分配。②.大的数组对象，切数组中无引用外部对象。老年代所占的内存大小为-Xmx对应的值减去-Xmn对应的值。</p>
-
-<p><img src="http://img.my.csdn.net/uploads/201209/30/1349009313_6062.jpg"></p>
-
-<p><code>生命周期：</code>
-随jvm的啓动而创建，随jvm的关闭和消亡。是线程共享的区域。</p>
-
-<p><code>异常：</code>
-java虚拟机可以处于不连续的内存空间，只要逻辑上是连续的即可，就像我们磁盘空间一样。如果堆没有内存完成实例饿分配，并且也无法扩展时，会抛出OutOfMemoryErro异常。</p>
-
-<h4>5. 方法区（Method Area）</h4>
-
-<p>也称&#8221;永久代” 、“非堆”，  它用于存储虚拟机加载的类信息、常量、静态变量、是各个<code>线程共享的内存区域</code>。默认最小值为16MB，最大值为64MB，可以通过-XX:PermSize 和 -XX:MaxPermSize 参数限制方法区的大小。
-运行时常量池：是方法区的一部分，Class文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项信息是常量池，用于存放编译器生成的各种符号引用，这部分内容将在类加载后放到方法区的运行时常量池中。</p>
-
-<h4>5. 直接内存（Direct Memory）</h4>
-
-<p>直接内存并不是虚拟机内存的一部分，也不是Java虚拟机规范中定义的内存区域。jdk1.4中新加入的NIO，引入了通道与缓冲区的IO方式，它可以调用Native方法直接分配堆外内存，这个堆外内存就是本机内存，不会影响到堆内存的大小。</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-21T19:22:00+08:00" pubdate data-updated="true">Sep 21<span>st</span>, 2013</time></div>
 	
 
 <div class="tags">
