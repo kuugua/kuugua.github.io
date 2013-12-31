@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | 因上努力，果上随缘]]></title>
   <link href="http://kuugua.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://kuugua.github.io/"/>
-  <updated>2013-12-31T20:45:29+08:00</updated>
+  <updated>2013-12-31T20:49:40+08:00</updated>
   <id>http://kuugua.github.io/</id>
   <author>
     <name><![CDATA[kugua]]></name>
@@ -173,7 +173,7 @@ console.log(another_stooge.firstName) // Jerome
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[【原创】javascript中的函数(一)：调用方式与this变量]]></title>
+    <title type="html"><![CDATA[【原创】javascript函数(一)：调用方式与this变量]]></title>
     <link href="http://kuugua.github.io/blog/2013/10/16/javascript-function-this/"/>
     <updated>2013-10-16T21:37:00+08:00</updated>
     <id>http://kuugua.github.io/blog/2013/10/16/javascript-function-this</id>
