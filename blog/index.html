@@ -9,7 +9,19 @@
 
 <meta name="author" content="kugua"> 
 
-<meta name="description" content="初次接触javascript闭包的时候，总觉得很高深，相比一般的命令式的语言（C,java等），较少接触过函数里面可以接定义函数情况。而再javascript中函数是一等公民，类似于基本的数据类型地位，可以存储变量中，可以当作参数传递，可以当作返回值。 &hellip;"> <meta name="keywords" content="">
+<meta name="description" content="一、 javascript数组简介 javascript中数组其实本质是一个对象,只是javascript作者想用一个对象来模拟数组这种数据结构的特性。我们来看下面这段代码： 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+var empty = [];
+var numbers = [&#39; &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -99,6 +111,214 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/01/01/javascript-array-length/">
+		
+			【转载】javascript数组(一)：诡异的length</a>
+	</h2>
+	<div class="entry-content">
+		<p><img src="http://ia.media-imdb.com/images/M/MV5BMTU4OTcyNzYwNV5BMl5BanBnXkFtZTcwMTYxMTg0NA@@._V1_SX640_SY720_.jpg" title="The Notebook" ></p>
+
+<h4>一、 javascript数组简介</h4>
+
+<ul>
+<li>javascript中数组其实本质是一个对象,只是javascript作者想用一个对象来模拟数组这种数据结构的特性。我们来看下面这段代码：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">empty</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;zero&#39;</span><span class="p">,</span> <span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="s1">&#39;two&#39;</span><span class="p">,</span> <span class="s1">&#39;three&#39;</span><span class="p">,</span> <span class="s1">&#39;four&#39;</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">numbers_object</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="mi">0</span><span class="o">:</span> <span class="s1">&#39;zero&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="mi">1</span><span class="o">:</span> <span class="s1">&#39;one&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="mi">2</span><span class="o">:</span> <span class="s1">&#39;two&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="mi">3</span><span class="o">:</span> <span class="s1">&#39;three&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="mi">4</span><span class="o">:</span> <span class="s1">&#39;four&#39;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">empty</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c1">//undefine  访问不存在的元素返回undefine</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">numbers</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1">//one</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其实numbers与numbers_object本质是一样都是对象，但是为了让numbers比一般的对象更具数组特性，让所有想具有数组特性的对象，如：numbers，继承自Array.prototype，而numbers_object继承自Object.prototype,这样numbers具有了大量了一般对象没有的有用的方法和我们下面将要讨论的length属性。</p>
+
+<ul>
+<li>javascript数组对象的可以是混合类型的</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">misc</span><span class="o">=</span><span class="p">[</span>
+</span><span class='line'>  <span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="mf">98.6</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">undefine</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;nested&#39;</span><span class="p">,</span> <span class="s1">&#39;array&#39;</span><span class="p">],</span>
+</span><span class='line'>  <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Bob&#39;</span><span class="p">},</span> <span class="kc">NaN</span>
+</span><span class='line'><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>二、javascript诡异的length属性</h4>
+
+<p>先来看一段代码，可以对照后面的注释答案，看看与你想的是否一样。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">myArray</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myArray</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span> <span class="c1">// 0</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//有一个元素，但是length却为0。</span>
+</span><span class='line'><span class="nx">myArray</span><span class="p">[</span><span class="mi">4294967300</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;big number&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myArray</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span> <span class="c1">// 0 </span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">myArray</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;zero&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">myArray</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;one&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myArray</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span> <span class="c1">// 2</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//默认转化为数字2</span>
+</span><span class='line'><span class="nx">myArray</span><span class="p">[</span><span class="s1">&#39;2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;two&#39;</span> <span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myArray</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span> <span class="c1">// 3</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//一般的字符串属性不影响length值。</span>
+</span><span class='line'><span class="nx">myArray</span><span class="p">[</span><span class="s1">&#39;prop1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;prop1&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myArray</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span> <span class="c1">//3</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//直接设置一个100，数组对象的元素个数为4个，但是length却是101</span>
+</span><span class='line'><span class="nx">myArray</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;100&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myArray</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span> <span class="c1">// 101</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//同理</span>
+</span><span class='line'><span class="nx">myArray</span><span class="p">[</span><span class="s1">&#39;200&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;200&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myArray</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span> <span class="c1">// 201</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">myArray</span><span class="p">[</span><span class="mi">4294967294</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;big number&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myArray</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span> <span class="c1">// 4294967295</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//length的最大值为：4294967295</span>
+</span><span class='line'><span class="nx">myArray</span><span class="p">[</span><span class="mi">4294967300</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;another big number&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myArray</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span> <span class="c1">// 4294967295</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nx">myArray</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myArray</span><span class="p">);</span>     <span class="c1">//[];  //数组被清空。</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//不影响非数字属性。</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myArray</span><span class="p">[</span><span class="s1">&#39;prop1&#39;</span><span class="p">])</span> <span class="p">;</span>   <span class="c1">//prop1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>估计这会让你大跌眼镜，这个length好诡异把。
+好了我们来总结下。</p>
+
+<h4>三、javascript数组length总结</h4>
+
+<p>产生上面的困惑与[]运算符的二义性和length的特性有关。</p>
+
+<h5>1. [] 运算符的二义性：同时为数组下标运算符和对象属性存取符。</h5>
+
+<ul>
+<li><p>[]运算符后面接的元算元可以是变量，直接量，表达式。而&#8217;.&lsquo;运算符右边的运算元必须是标识符,所以&#8221;abc.def&#8221; , &#8216;1&rsquo; , &lsquo;.&#8217;这些属性名只能使用[]运算符访问。所以可以理解为[]功能比&rsquo;.&lsquo;运算符更强大，而&rsquo;.&lsquo;运算符比[]运算符的可读性高。</p></li>
+<li><p>[]运算符会把它包含的表达式转换成一个字符串，如果该表达式有tostring方法就使用该方法转换。并且这个字符串会被用于做属性名，当但是当对象同时也是数组，且这个字符串能被转换为下标数字时，如：myArray[&lsquo;2&rsquo;] ,这个属性的存在却影响了数组的length的值。而myArray[&lsquo;prop&rsquo;]却不会影响length值。</p></li>
+</ul>
+
+
+<h5>2. length的特性</h5>
+
+<ul>
+<li><p>如果这个[]运算符中的字符串看起来像大于等于当前的length并且小于429496709正整数，那么length就被重新赋值为新的下标加1. 根据ECMAScript262标准，数下标必须大于等于0 小于2 e32 &ndash; 1。</p></li>
+<li><p>你可以直接给length指定一个值，如果length值大于当前的数组对象内元素个数，数组对象不会得到更多的空间，但是把length设置为小于当前数组对象内元素个数那么大于length的属性将会直接删除，可见length是很诡异，可以说这是javascript的一个失败的设计，应当慎用。但不会影响到对象的非数字属性。如： myArray[&lsquo;prop&rsquo;];</p></li>
+</ul>
+
+
+<p>对照总结再把上面的代码对照一遍，你就明白了为什么会是这个结果了。</p>
+
+<p>ps: 配图为电影<a href="http://movie.douban.com/subject/1309163/">《恋恋笔记本》</a>剧照，一部感人的爱情片，推荐给大家，以前的配图都为别人拍的一些我认为很美的照片，以后会尽量把配图变得有意义一些。</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-01T16:13:00+08:00" pubdate data-updated="true">Jan 1<span>st</span>, 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/javascript/'>javascript</a>
+
+</div>
+
+
+	
+</div></article>
 
 
     <article class="post">
@@ -1787,248 +2007,6 @@ Javascript语言的特殊之处，就在于函数内部可以直接读取全局�
 	
 </div></article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/09/26/jvm-objectisalive/">
-		
-			【原创】java对象的判刑</a>
-	</h2>
-	<div class="entry-content">
-		<p><img src="http://farm8.staticflickr.com/7282/8715807544_4dc376db39_c.jpg"></p>
-
-<h3><strong>一.垃回收器判断java对象死活的算法</strong></h3>
-
-<p>堆中几乎存放着java 世界的所有对象，垃圾回收器在对堆回收前，第一件事情就是判断对象那些是“活”的，哪些是“死”的。那判断的算法是什么呢？</p>
-
-<h4><strong>1. 引用计数算法</strong></h4>
-
-<p>引用计数算法是对每个对象配置一个引用计数器，当一个地方引用它时，它的引用计数器就加1，当引用失效后，计数器减1.当计数器的值为0时，就表示这个对象不可用了，也即是“死”了。</p>
-
-<p>引用计数算法的实现很简单，判定效率很高，很多时候都是一个不错的算法。</p>
-
-<h4><strong>2. 根搜索算法</strong></h4>
-
-<p>根搜索算法基本思路就是通过一系列称为 “GC Roots” 的对象作为起始点，从这些节点向下搜索，搜索走过的路径称为“引用链（Refenrence Chain）”，当一个对象到所有的GC Roots都没有引用链的时候，则证明这个对象是不可用的。则将会被判断为可回收的对象。如下图中的对象5， 6， 7，虽然它门之间有关联，但是它门与GC Roots之间没有引用链，所以在垃圾回收的时候是会被认为是可回收的。</p>
-
-<p><img src="../images/GC_Roots.png"></p>
-
-<p>那java中到底使用了是哪种算法呢，我们通过一段代码来验证：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ReferenceCountingGC</span> <span class="o">{</span>
-</span><span class='line'>      <span class="kd">public</span> <span class="n">Object</span> <span class="n">instance</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</span><span class='line'>          
-</span><span class='line'>      <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">_1MB</span> <span class="o">=</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">;</span>
-</span><span class='line'>      
-</span><span class='line'>      <span class="c1">//这个成员设计目的是为了占内存，以便能在GC日志中看到清楚是否被回收过</span>
-</span><span class='line'>      <span class="kd">private</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">bigSize</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">_1MB</span><span class="o">];</span>
-</span><span class='line'>      
-</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">testGC</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>          <span class="n">ReferenceCountingGC</span> <span class="n">objA</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReferenceCountingGC</span><span class="o">();</span>
-</span><span class='line'>          <span class="n">ReferenceCountingGC</span> <span class="n">objB</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReferenceCountingGC</span><span class="o">();</span>
-</span><span class='line'>          
-</span><span class='line'>          <span class="c1">//让它门相互引用,满足了算法一</span>
-</span><span class='line'>          <span class="n">objA</span><span class="o">.</span><span class="na">instance</span> <span class="o">=</span> <span class="n">objB</span><span class="o">;</span>
-</span><span class='line'>          <span class="n">objB</span><span class="o">.</span><span class="na">instance</span> <span class="o">=</span> <span class="n">objA</span><span class="o">;</span>
-</span><span class='line'>          
-</span><span class='line'>          <span class="c1">//置空它们，满足了算法二</span>
-</span><span class='line'>          <span class="n">objA</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</span><span class='line'>          <span class="n">objB</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</span><span class='line'>          
-</span><span class='line'>          <span class="c1">//开启回收</span>
-</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">gc</span><span class="o">();</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>      
-</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>          <span class="n">ReferenceCountingGC</span><span class="o">.</span><span class="na">testGC</span><span class="o">();</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>看GC日志（eclipse中gc日志输出设置，参见：<a href="http://www.myexception.cn/eclipse/1268020.html%EF%BC%89">http://www.myexception.cn/eclipse/1268020.html%EF%BC%89</a></p>
-
-<p><img src="../images/gclog.png"></p>
-
-<p>可以看到两个对象4M（<code>4612K-&gt;375K</code>）左右被回收了，也就是数说从侧面证明了java不是使用引用计数算法，而是根搜索算法。这是因为引用计数算法无法解决对象之间相互循环的引用的问题。顺便提一句python是使用了计数引用算法。</p>
-
-<h3><strong>二. 对象的真正审判</strong></h3>
-
-<h4><strong>1. java中的引用</strong></h4>
-
-<p>无论是以上两种的哪种算法，都是依靠引用来判断的。在JDK1.2之后，java对引用的概念进行了扩充，将引用分为：</p>
-
-<ul>
-<li><p>强引用：指代码中最常见的Object obj = new Object()这种引用，只要强引用存在这个对象就永远不会被回收掉。</p></li>
-<li><p>软引用：用来描述一些还有用,但是并非必须的对象。对于软引用关联着对象，在系统将要发生内存溢出之前，将这些对象列入回收的范围，进行第二次回收，但是回收后还不够内存的话，才会抛出溢出异常。JDK1.2之后，提供了SoftReference类来实现软引用。</p></li>
-<li><p>弱引用：用来描述一些非必须的对象，相对软引用的强度较弱。被弱引用关联的对像只能活到下次垃圾收集发生之前，无论当前内存是否足够。</p></li>
-<li><p>虚引用： 也称为幽灵引用，虚引用关联的对象与对象的生命周期无关，也不能通过虚引用获取对象，只是能在回收的时候接受到一个系统通知。</p></li>
-</ul>
-
-
-<h4><strong>2. 存活还是死亡</strong></h4>
-
-<p>在经过了根搜索算法无法到达后，基本这个对象被定为了死刑。但是也不是绝对的。
-垃圾收集器对所有无法达到的对象进行一次标记和筛选，筛选出需要执行<code>finalize（）</code>的对象。</p>
-
-<p>判断一个对象<code>无需</code>执行<code>finallize（）</code>方法的标准是：这个对象没有重写fianlize（）方法或者finalize（）方法被虚拟机调用过了。这些无需执行<code>finalize（）</code>方法的对象将会被直接回；而需要执行<code>finalize（）</code>的对象将在执行完后再判断是否要回收，也就是<code>fianlize（）</code>是对象的最后一棵救命的稻草。可以从下面的代码验证：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">FinalizeEscapeGC</span> <span class="o">{</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="n">FinalizeEscapeGC</span> <span class="n">SAVE_HOOK</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</span><span class='line'>  
-</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">isAlive</span><span class="o">(){</span>
-</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;yes, I am still alive :)&quot;</span><span class="o">);</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  
-</span><span class='line'>  <span class="nd">@Override</span>
-</span><span class='line'>  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">finalize</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Throwable</span> <span class="o">{</span>
-</span><span class='line'>      <span class="kd">super</span><span class="o">.</span><span class="na">finalize</span><span class="o">();</span>
-</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;finalize method executed...&quot;</span><span class="o">);</span>
-</span><span class='line'>      <span class="n">FinalizeEscapeGC</span><span class="o">.</span><span class="na">SAVE_HOOK</span> <span class="o">=</span> <span class="k">this</span><span class="o">;</span>   <span class="c1">//再finalize（）方法中拯救自己</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>  
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span>  <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span><span class="o">{</span>
-</span><span class='line'>      <span class="n">SAVE_HOOK</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FinalizeEscapeGC</span><span class="o">();</span>
-</span><span class='line'>      
-</span><span class='line'>      <span class="c1">//置空SAVE_HOOK,然后调用回收机制，第一次调用finalize（），发现没有被回收。</span>
-</span><span class='line'>      <span class="n">SAVE_HOOK</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">gc</span><span class="o">();</span>
-</span><span class='line'>      
-</span><span class='line'>      <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">500</span><span class="o">);</span>
-</span><span class='line'>      <span class="k">if</span><span class="o">(</span><span class="n">SAVE_HOOK</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">){</span>
-</span><span class='line'>          <span class="n">SAVE_HOOK</span><span class="o">.</span><span class="na">isAlive</span><span class="o">();</span>
-</span><span class='line'>      <span class="o">}</span> <span class="k">else</span><span class="o">{</span>
-</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;no, I am dead :( &quot;</span><span class="o">);</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>      
-</span><span class='line'>      <span class="c1">//第二次执行一样的代码，但是却被回收了。</span>
-</span><span class='line'>      <span class="n">SAVE_HOOK</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">gc</span><span class="o">();</span>
-</span><span class='line'>      
-</span><span class='line'>      <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">500</span><span class="o">);</span>
-</span><span class='line'>      <span class="k">if</span><span class="o">(</span><span class="n">SAVE_HOOK</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">){</span>
-</span><span class='line'>          <span class="n">SAVE_HOOK</span><span class="o">.</span><span class="na">isAlive</span><span class="o">();</span>
-</span><span class='line'>      <span class="o">}</span> <span class="k">else</span><span class="o">{</span>
-</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">&quot;no, I am dead :( &quot;</span><span class="o">);</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>      
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>代码的输出为：</p>
-
-<pre><code>    finalize method executed...
-    yes, I am still alive :)
-    no, I am dead :( 
-</code></pre>
-
-<p>可以看到第一次垃圾回收的时候执行了<code>finalize()</code>方法，而方法体中对对象进行了拯救，所以对象没有被回收，但是第二次垃圾回收到来的时候，由于<code>fianlize（）</code>已经被执行过一次了，所以不会被执行，这就是对象被回收的原因。</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-26T22:17:00+08:00" pubdate data-updated="true">Sep 26<span>th</span>, 2013</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/chu-she-jvm/'>初涉jvm</a>
-
-</div>
-
-
-	
-</div></article>
-
 <nav id="pagenavi">
     
     
@@ -2036,7 +2014,7 @@ Javascript语言的特殊之处，就在于函数内部可以直接读取全局�
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>
-	<footer id="footer" class="inner">Copyright &copy; 2013
+	<footer id="footer" class="inner">Copyright &copy; 2014
 
     kugua
 
