@@ -4,7 +4,7 @@
   <title><![CDATA[因上努力，果上随缘]]></title>
   <link href="http://kuugua.github.io/atom.xml" rel="self"/>
   <link href="http://kuugua.github.io/"/>
-  <updated>2014-01-01T19:17:09+08:00</updated>
+  <updated>2014-01-01T20:19:58+08:00</updated>
   <id>http://kuugua.github.io/</id>
   <author>
     <name><![CDATA[kugua]]></name>
@@ -183,6 +183,51 @@
 
 
 <p>对照总结再把上面的代码对照一遍，你就明白了为什么会是这个结果了。</p>
+
+<h4>四、javascript数组元素的删除</h4>
+
+<p>我们怎么正确的删除一个数组的元素呢？</p>
+
+<ol>
+<li>错误的删除方式：</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//先声明一个数组</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">myArray2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">];</span>
+</span><span class='line'><span class="c1">//尝试删除元素</span>
+</span><span class='line'><span class="k">delete</span>  <span class="nx">myArray2</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myArray2</span><span class="p">);</span> <span class="c1">//[1, 2, undefined × 1, 4, 5, 6, 7, 8, 9, 10] </span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myArray2</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>  <span class="c1">//10</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可见使用delete删除一个元素 虽然删除了但是还占着一个坑，后面的元素索引没有减一。长度还是10
+究其原因是delete把myArray2当作对象，删除了其一个属性而已。</p>
+
+<ol>
+<li>正确了删除方式：</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//从第下标为2的元素开始删除，删除一个元素。</span>
+</span><span class='line'><span class="nx">myArray2</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myArray2</span><span class="p">);</span>  <span class="c1">//[1, 2, 4, 5, 6, 7, 8, 9, 10]</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myArray2</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>  <span class="c1">//9  </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>调用splice方法，最后长度为9。达到了删除数组元素的目的。</p>
 ]]></content>
   </entry>
   
