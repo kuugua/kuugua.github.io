@@ -4,7 +4,7 @@
   <title><![CDATA[因上努力，果上随缘]]></title>
   <link href="http://kuugua.github.io/atom.xml" rel="self"/>
   <link href="http://kuugua.github.io/"/>
-  <updated>2014-01-01T20:19:58+08:00</updated>
+  <updated>2014-01-09T21:54:52+08:00</updated>
   <id>http://kuugua.github.io/</id>
   <author>
     <name><![CDATA[kugua]]></name>
@@ -12,6 +12,112 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[【原创】html文档中的DOCTYPE标签]]></title>
+    <link href="http://kuugua.github.io/blog/2014/01/09/html-doctype/"/>
+    <updated>2014-01-09T20:13:00+08:00</updated>
+    <id>http://kuugua.github.io/blog/2014/01/09/html-doctype</id>
+    <content type="html"><![CDATA[<p><img src="http://farm8.staticflickr.com/7339/11685631864_55c0ce270b_z.jpg"></p>
+
+<p>在写html页面的时候我们一般都会在首行添加<code>〈!DOCTYPE〉</code>的标签，有些编辑器会自动帮我们添加，今天讲讲这个<code>〈!DOCTYPE〉</code>标签的作用。</p>
+
+<h5>一、HTML与XHTML</h5>
+
+<p>在<code>W3C</code>组织还么颁发html标准之前，开发网页的时候大家都没有加这个标签，那个时候.html页面的开发也比较混乱，直到1999年的时候，HTML 4.01成为了推荐标准，那时候起大多数人都使用这个版本。又大概在2000年的时候，W3C组织又颁发了基于HTML4.01的XML版本，并命名为XHTML1.0。</p>
+
+<p>两者其实主要的差别是XHTML遵循了XML的编码标准，这意味着XHTML文档中增加了标签的属性必须包含在<code>""</code>中，所有的标签必须闭合等比较严格的规定。这个也是有经验的开发人员经常提醒新手写.html页面的要注意的地方。好了，问题来了：</p>
+
+<ul>
+<li><p>前面我们提到在还没使用HTML 4.01作为推荐标准时，html文档是没有<code>〈!DOCTYPE〉</code>标签的，那么浏览器在面对一个.html文档时，如果有这个标签会怎么解析，没有这个文档会怎样解释。</p></li>
+<li><p>标准推出后有了两种版本（标准）来写.html文档，那么浏览器在解析html文档的时候应该使用哪种标准呢？</p></li>
+</ul>
+
+
+<p>这个时候<code>〈!DOCTYPE〉</code>标签就派上用场了。</p>
+
+<h5>二、<code>〈!DOCTYPE〉</code>约定浏览器使用什么版本的html</h5>
+
+<p>   <code>&lt;!DOCTYPE&gt;</code> 声明html文档引用哪个<a href="http://www.w3school.com.cn/dtd/">DTD</a>， 和哪个html版本来解析html文档。学过xml的应该对这个比较了解了.而目前的<code>&lt;!DOCTYPE&gt;</code>也存在着三种风格： Strict (严格)、 Transitional（过渡）、 Frameset（框架集）。</p>
+
+<p>  这三种风格下有这不同的要求和规定，下面看下HTML 4.01版本的声明：</p>
+
+<ul>
+<li>HTML 4.01 Strict：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>  <span class="cp">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot; &quot;http://www.w3.org/TR/html4/strict.dtd&quot;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>   该 DTD 包含所有 HTML 元素和属性，但不包括展示性的和弃用的元素（比如 font）。不允许框架集（Framesets）。这个声明在我们开发中比较少用，因为它比较严格控制了html页面上不应该出现样式控制的属性。</p>
+
+<ul>
+<li>HTML 4.01 Transitional：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>   <span class="cp">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; </span>
+</span><span class='line'><span class="cp">&quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>该 DTD 包含所有 HTML元素和属性，包括展示性的和弃用的元素（比如 font）。不允许框架集（Framesets）。这个是目前比较常用的声明。</p>
+
+<ul>
+<li>HTML 4.01 Frameset：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>   <span class="cp">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Frameset//EN&quot; </span>
+</span><span class='line'><span class="cp">&quot;http://www.w3.org/TR/html4/frameset.dtd&quot;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>该 DTD 等同于 HTML 4.01 Transitional，但允许框架集内容。</p>
+
+<p>同理，XHTML 1.0也有类似的三种风格的<code>&lt;!DOCTYPE&gt;</code>声明。具体的含义参见<a href="http://www.w3school.com.cn/tags/tag_doctype.asp">W3C关于此标签</a> 的说明。</p>
+
+<p>   这个是第二个问题的答案。</p>
+
+<h5>三、<code>&lt;!DOCTYPE&gt;</code>约定浏览器使用哪种模式渲染页面</h5>
+
+<p>  第二点是说怎么解析html文档，这个是说渲染页面，对的，渲染不仅仅是dom节点还包括css样式和javascript事件等等。</p>
+
+<p>  在标准未出来前html文档中没有使用<code>&lt;!DOCTYPE&gt;</code>标签，所以在现在有了标准后我们强烈建议要添加这个标签，不然开发的页面就跟十几年前一样了，那么浏览器为了兼容旧时代的网页而开启混杂模式。现代浏览器一般在有两种方式渲染页面。一种是混杂模式（主要是使用了上一代的盒模型，为了兼容旧时代的网页），一种是标准模式（目前主流的）。有关浏览器渲染模式可以查看<a href="https://hsivonen.fi/doctype/">这里</a>。当你写的html页面因为没有声明<code>&lt;!DOCTYPE&gt;</code>标签，就会被混杂模式渲染，那么你css样式和javascript代码的执行都有可能会收到影响，这个问题就大了。</p>
+
+<p>现在直到了把，<code>&lt;!DOCTYPE&gt;</code>会告知浏览器应使用什么模式渲染页面。</p>
+
+<p>但是，我们到目前主流的网站，如： 豆瓣，新浪， 淘宝等看看页面发现他们的<code>&lt;!DOCTYPE&gt;</code>标签居然是这样声明的：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>没有html版本也没有dtd链接等，这样也能正常运行？答案是：这个是第五代html版本的<code>&lt;!DOCTYPE&gt;</code>声明方式，也就是HTML 5的声明方式。够简洁把，而且还能够向后兼容。这也是一种很好方式，因为现在主流的浏览器都已经支持HTML 5了。</p>
+
+<h5>四：总结</h5>
+
+<p><code>&lt;!DOCTYPE&gt;</code>作用主要有两个：</p>
+
+<ul>
+<li><p>约定浏览器使用什么版本的html解析页面。</p></li>
+<li><p>`约定浏览器使用哪种模式渲染页面。</p></li>
+</ul>
+
+
+<p>这是一个很重要的标签。</p>
+
+<p>ps: 今天的博文配图为电影 《<a href="http://movie.douban.com/subject/1309163/">恋恋笔记本</a>》 的剧照，挺感人的一部电影。以前多发一些摄影作品，今后尽量让配图有意义。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[【转载】javascript数组(一)：诡异的length]]></title>

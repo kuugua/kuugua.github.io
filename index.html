@@ -9,19 +9,7 @@
 
 <meta name="author" content="kugua"> 
 
-<meta name="description" content="一、 javascript数组简介 javascript中数组其实本质是一个对象,只是javascript作者想用一个对象来模拟数组这种数据结构的特性。我们来看下面这段代码： 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-var empty = [];
-var numbers = [&#39; &hellip;"> <meta name="keywords" content="">
+<meta name="description" content="在写html页面的时候我们一般都会在首行添加〈!DOCTYPE〉的标签，有些编辑器会自动帮我们添加，今天讲讲这个〈!DOCTYPE〉标签的作用。 一、HTML与XHTML 在W3C组织还么颁发html标准之前，开发网页的时候大家都没有加这个标签，那个时候.html页面的开发也比较混乱， &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -111,6 +99,145 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/01/09/html-doctype/">
+		
+			【原创】html文档中的DOCTYPE标签</a>
+	</h2>
+	<div class="entry-content">
+		<p><img src="http://farm8.staticflickr.com/7339/11685631864_55c0ce270b_z.jpg"></p>
+
+<p>在写html页面的时候我们一般都会在首行添加<code>〈!DOCTYPE〉</code>的标签，有些编辑器会自动帮我们添加，今天讲讲这个<code>〈!DOCTYPE〉</code>标签的作用。</p>
+
+<h5>一、HTML与XHTML</h5>
+
+<p>在<code>W3C</code>组织还么颁发html标准之前，开发网页的时候大家都没有加这个标签，那个时候.html页面的开发也比较混乱，直到1999年的时候，HTML 4.01成为了推荐标准，那时候起大多数人都使用这个版本。又大概在2000年的时候，W3C组织又颁发了基于HTML4.01的XML版本，并命名为XHTML1.0。</p>
+
+<p>两者其实主要的差别是XHTML遵循了XML的编码标准，这意味着XHTML文档中增加了标签的属性必须包含在<code>""</code>中，所有的标签必须闭合等比较严格的规定。这个也是有经验的开发人员经常提醒新手写.html页面的要注意的地方。好了，问题来了：</p>
+
+<ul>
+<li><p>前面我们提到在还没使用HTML 4.01作为推荐标准时，html文档是没有<code>〈!DOCTYPE〉</code>标签的，那么浏览器在面对一个.html文档时，如果有这个标签会怎么解析，没有这个文档会怎样解释。</p></li>
+<li><p>标准推出后有了两种版本（标准）来写.html文档，那么浏览器在解析html文档的时候应该使用哪种标准呢？</p></li>
+</ul>
+
+
+<p>这个时候<code>〈!DOCTYPE〉</code>标签就派上用场了。</p>
+
+<h5>二、<code>〈!DOCTYPE〉</code>约定浏览器使用什么版本的html</h5>
+
+<p>   <code>&lt;!DOCTYPE&gt;</code> 声明html文档引用哪个<a href="http://www.w3school.com.cn/dtd/">DTD</a>， 和哪个html版本来解析html文档。学过xml的应该对这个比较了解了.而目前的<code>&lt;!DOCTYPE&gt;</code>也存在着三种风格： Strict (严格)、 Transitional（过渡）、 Frameset（框架集）。</p>
+
+<p>  这三种风格下有这不同的要求和规定，下面看下HTML 4.01版本的声明：</p>
+
+<ul>
+<li>HTML 4.01 Strict：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>  <span class="cp">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot; &quot;http://www.w3.org/TR/html4/strict.dtd&quot;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>   该 DTD 包含所有 HTML 元素和属性，但不包括展示性的和弃用的元素（比如 font）。不允许框架集（Framesets）。这个声明在我们开发中比较少用，因为它比较严格控制了html页面上不应该出现样式控制的属性。</p>
+
+<ul>
+<li>HTML 4.01 Transitional：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>   <span class="cp">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; </span>
+</span><span class='line'><span class="cp">&quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>该 DTD 包含所有 HTML元素和属性，包括展示性的和弃用的元素（比如 font）。不允许框架集（Framesets）。这个是目前比较常用的声明。</p>
+
+<ul>
+<li>HTML 4.01 Frameset：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>   <span class="cp">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Frameset//EN&quot; </span>
+</span><span class='line'><span class="cp">&quot;http://www.w3.org/TR/html4/frameset.dtd&quot;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>该 DTD 等同于 HTML 4.01 Transitional，但允许框架集内容。</p>
+
+<p>同理，XHTML 1.0也有类似的三种风格的<code>&lt;!DOCTYPE&gt;</code>声明。具体的含义参见<a href="http://www.w3school.com.cn/tags/tag_doctype.asp">W3C关于此标签</a> 的说明。</p>
+
+<p>   这个是第二个问题的答案。</p>
+
+<h5>三、<code>&lt;!DOCTYPE&gt;</code>约定浏览器使用哪种模式渲染页面</h5>
+
+<p>  第二点是说怎么解析html文档，这个是说渲染页面，对的，渲染不仅仅是dom节点还包括css样式和javascript事件等等。</p>
+
+<p>  在标准未出来前html文档中没有使用<code>&lt;!DOCTYPE&gt;</code>标签，所以在现在有了标准后我们强烈建议要添加这个标签，不然开发的页面就跟十几年前一样了，那么浏览器为了兼容旧时代的网页而开启混杂模式。现代浏览器一般在有两种方式渲染页面。一种是混杂模式（主要是使用了上一代的盒模型，为了兼容旧时代的网页），一种是标准模式（目前主流的）。有关浏览器渲染模式可以查看<a href="https://hsivonen.fi/doctype/">这里</a>。当你写的html页面因为没有声明<code>&lt;!DOCTYPE&gt;</code>标签，就会被混杂模式渲染，那么你css样式和javascript代码的执行都有可能会收到影响，这个问题就大了。</p>
+
+<p>现在直到了把，<code>&lt;!DOCTYPE&gt;</code>会告知浏览器应使用什么模式渲染页面。</p>
+
+<p>但是，我们到目前主流的网站，如： 豆瓣，新浪， 淘宝等看看页面发现他们的<code>&lt;!DOCTYPE&gt;</code>标签居然是这样声明的：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>没有html版本也没有dtd链接等，这样也能正常运行？答案是：这个是第五代html版本的<code>&lt;!DOCTYPE&gt;</code>声明方式，也就是HTML 5的声明方式。够简洁把，而且还能够向后兼容。这也是一种很好方式，因为现在主流的浏览器都已经支持HTML 5了。</p>
+
+<h5>四：总结</h5>
+
+<p><code>&lt;!DOCTYPE&gt;</code>作用主要有两个：</p>
+
+<ul>
+<li><p>约定浏览器使用什么版本的html解析页面。</p></li>
+<li><p>`约定浏览器使用哪种模式渲染页面。</p></li>
+</ul>
+
+
+<p>这是一个很重要的标签。</p>
+
+<p>ps: 今天的博文配图为电影 《<a href="http://movie.douban.com/subject/1309163/">恋恋笔记本</a>》 的剧照，挺感人的一部电影。以前多发一些摄影作品，今后尽量让配图有意义。</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-09T20:13:00+08:00" pubdate data-updated="true">Jan 9<span>th</span>, 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/html/'>html</a>
+
+</div>
+
+
+	
+</div></article>
 
 
     <article class="post">
@@ -1893,156 +2020,6 @@ Javascript语言的特殊之处，就在于函数内部可以直接读取全局�
 <div class="tags">
 
 	<a class='category' href='/blog/categories/javascript/'>javascript</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/10/06/life-20131001-guoqingjie/">
-		
-			【MyLife】2k13国庆节</a>
-	</h2>
-	<div class="entry-content">
-		<p><img src="http://farm3.staticflickr.com/2822/10136345226_c0b3da521b_c.jpg" title="冯FF" ></p>
-
-<p>这次国庆没有出游，经我和冯FF商量退掉了去南京的票，也取消了去三清山的计划，留守南昌。留守当然不甘寂寞啦，当然最大的收获就是吃啦。</p>
-
-<p><strong>一、川妹火锅：</strong></p>
-
-<p>在南昌一提到火锅大家肯定知道<code>季季红</code>啦，其实上海北路的<code>川妹</code>也不错啦。从高中就开始吃川妹，在众多<code>季季红</code>包围下，还是得有人支持下的，不然就垄断啦。</p>
-
-<p><img src="http://farm4.staticflickr.com/3736/10133286293_38f8c0a017_z.jpg"></p>
-
-<p><img src="http://farm6.staticflickr.com/5516/10133210496_0647a1226f_z.jpg"></p>
-
-<p><img src="http://farm6.staticflickr.com/5547/10133109725_9099773d5f_z.jpg"></p>
-
-<p><strong>二、套餐店：</strong></p>
-
-<p>位于南京东路省科学院斜对面，这家跟店有点类似<code>真功夫</code>，具体名字也记不清啦，当时随便选择的啦。味道还行，话说汤比起煨汤厚道多啦。其实说起套餐，在南昌不得不提下<code>大食头</code>，以前已经常吃，但被曝中毒事件后，最近都没敢吃。</p>
-
-<p><img src="http://farm3.staticflickr.com/2812/10132678856_8a51200057_z.jpg"></p>
-
-<p><img src="http://farm3.staticflickr.com/2875/10132798003_14ddf35426_z.jpg"></p>
-
-<p><img src="http://farm3.staticflickr.com/2817/10132889463_e480b5e4eb_z.jpg"></p>
-
-<p><strong>三、仙芋小镇：</strong></p>
-
-<p>地点位于中山路的动壹基地二楼。在微薄上同城君推荐的，所以就去尝尝咯，当然没有失望咯，特别是她家的芋头真粉呀。</p>
-
-<p><img src="http://farm4.staticflickr.com/3688/10132350865_283c22e3b5_z.jpg"></p>
-
-<p><img src="http://farm8.staticflickr.com/7355/10132440225_46933d7739_z.jpg"></p>
-
-<p><img src="http://farm8.staticflickr.com/7301/10135588124_a4a10f6c47_z.jpg" title="外带寿司" ></p>
-
-<p><strong>四、斗牛士牛排：</strong></p>
-
-<p>同样是在动壹基地不过在四楼，在大众点评上看到的比较人气的牛排餐厅。相比于广场那边的尊品牛排消费稍高，但是环境和服务都比较号，还有就是除了排餐其他的配餐都是无限自助的。各种食物都很精致，看上去就很有食欲呀。</p>
-
-<p><img src="http://farm3.staticflickr.com/2880/10120372065_876489637f_z.jpg"></p>
-
-<p><img src="http://farm8.staticflickr.com/7400/10120268124_d988a62b66_z.jpg"></p>
-
-<p><img src="http://farm4.staticflickr.com/3772/10120479573_fbaf9c49ed_z.jpg"></p>
-
-<p><img src="http://farm4.staticflickr.com/3767/10120431713_7832b365c5_z.jpg" title="土豆泥" ></p>
-
-<p><img src="http://farm8.staticflickr.com/7405/10120435126_d0b57c6510_z.jpg" title="卡布奇诺" ></p>
-
-<p><img src="http://farm4.staticflickr.com/3797/10135691785_3ea8207e82_z.jpg" title="罗宋汤" ></p>
-
-<p><img src="http://farm8.staticflickr.com/7304/10120453106_18b4c5e913_z.jpg" title="玉米汤" ></p>
-
-<p><img src="http://farm8.staticflickr.com/7304/10120515863_fe9555cd34_z.jpg" title="红茶" ></p>
-
-<p><img src="http://farm4.staticflickr.com/3732/10120383806_d841ee74e7_z.jpg" title="水果沙拉" ></p>
-
-<p><strong>五、南昌小餐馆：</strong></p>
-
-<p>其实南昌各种小巷里面的餐馆也是不错滴。</p>
-
-<p><img src="http://farm8.staticflickr.com/7333/10134464943_416efa0a6c_z.jpg"></p>
-
-<p><img src="http://farm4.staticflickr.com/3678/10134291215_84726fb102_z.jpg"></p>
-
-<p><img src="http://farm6.staticflickr.com/5518/10136015245_3be26e3e7c_z.jpg"></p>
-
-<p><img src="http://farm4.staticflickr.com/3750/10135875216_74b4fc7f10_z.jpg"></p>
-
-<p><strong>六、系马桩田螺王：</strong></p>
-
-<p>相信江西本地的对于什么煌上煌一定陌生啦，下面推荐一下南昌本地的另一特色那就是南昌的田螺王。在南昌有名气应该是这两家了<code>老闵田螺馆</code> （在微博上很火）和 <code>系马桩田螺王</code>（在大众点评上很火，有三四家分店了）。我们去的是国安路那家，本要去<code>老闵田螺馆</code>的，但是由于他们家休假了，以为吃不到了所以在国威路吃了碗南昌炒粉，就去国安路碰碰运气哈。配上几瓶南昌8度，吃完直呼过瘾啊，不多说，上图。</p>
-
-<p><img src="http://farm8.staticflickr.com/7345/10133435644_747d570b23_z.jpg" title="辣仔田螺" ></p>
-
-<p><img src="http://farm4.staticflickr.com/3792/10133494516_9bf5456703_z.jpg" title="炒花甲" ></p>
-
-<p><img src="http://farm8.staticflickr.com/7387/10133489793_43d0549c4a_z.jpg" title="纸包鹌鹑" ></p>
-
-<p><img src="http://farm4.staticflickr.com/3686/10133479524_d15e5afe73_z.jpg" title="南昌8度" ></p>
-
-<p><strong>七、诸葛烤鱼：</strong></p>
-
-<p>这家店位于南昌著名的烤鱼一条街，上有提到的国安路，巧在它跟系马庄田螺王就是邻居哈。烤鱼当然也很不错啦。</p>
-
-<p><img src="http://farm8.staticflickr.com/7455/10135843895_49e3331947_z.jpg"></p>
-
-<p><img src="http://farm8.staticflickr.com/7299/10135820404_cb1067cec6_z.jpg"></p>
-
-<p>在贴几张美景青山湖的清晨和艾溪湖夕阳啦。</p>
-
-<p><img src="http://farm4.staticflickr.com/3724/10133213373_b046367e25_z.jpg" title="青山湖清晨1" ></p>
-
-<p><img src="http://farm4.staticflickr.com/3769/10132956453_f0aa7769dd_z.jpg" title="青山湖清晨2" ></p>
-
-<p><img src="http://farm6.staticflickr.com/5523/10134192055_440f1c31a7_z.jpg" title="艾溪湖桥" ></p>
-
-<p><img src="http://farm8.staticflickr.com/7309/10134038554_4374820260_z.jpg" title="自行车" ></p>
-
-<p><img src="http://farm8.staticflickr.com/7428/10133976324_0a62a1f3d1_z.jpg" title="艾溪湖的晚霞" ></p>
-
-<p><img src="http://farm8.staticflickr.com/7373/10136305746_2d6bef9fa2_z.jpg" title="死飞" ></p>
-
-<p><img src="http://farm8.staticflickr.com/7389/10133826675_5b675c0b70_z.jpg" title="艾溪湖向日葵" ></p>
-
-<p><img src="http://farm8.staticflickr.com/7410/10133902133_3cee107b89_z.jpg" title="湖水" ></p>
-
-<p>其实南昌的美食还是挺多的，大家有推荐的直接留言哈。</p>
-
-<p>最后感谢冯FF同学，这次国庆还是蛮充实的，很开心，估计会留在记忆中很久。最后，千万别忘记：胖子没有人生啊。囧囧&hellip;</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-06T21:23:00+08:00" pubdate data-updated="true">Oct 6<span>th</span>, 2013</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/mylife/'>MyLife</a>
 
 </div>
 
