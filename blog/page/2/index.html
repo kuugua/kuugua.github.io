@@ -9,7 +9,7 @@
 
 <meta name="author" content="kugua"> 
 
-<meta name="description" content="这次国庆没有出游，经我和冯FF商量退掉了去南京的票，也取消了去三清山的计划，留守南昌。留守当然不甘寂寞啦，当然最大的收获就是吃啦。 一、川妹火锅： 在南昌一提到火锅大家肯定知道季季红啦，其实上海北路的川妹也不错啦。从高中就开始吃川妹，在众多季季红包围下，还是得有人支持下的，不然就垄断啦。 二、 &hellip;"> <meta name="keywords" content="">
+<meta name="description" content="最近看道大师的 javascript：The Good part一书中谈道在javascript中函数的调用的四种方式，今天就来说说这四种不同方式下的this变量的含义。以下代码建议在chrome下运行。 1. 函数的方法调用模式 当function作为对象的属性调用时，我们称之为方法。 &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -99,6 +99,211 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/10/16/javascript-function-this/">
+		
+			【原创】javascript函数(一)：调用方式与this变量</a>
+	</h2>
+	<div class="entry-content">
+		<p><img src="http://farm8.staticflickr.com/7345/9770973423_b7b913d727_c.jpg" title="by  Chic*ka" ></p>
+
+<p>最近看道大师的 javascript：The Good part一书中谈道在javascript中函数的调用的四种方式，今天就来说说这四种不同方式下的this变量的含义。以下代码建议在chrome下运行。</p>
+
+<h4>1. 函数的方法调用模式</h4>
+
+<p>当function作为对象的属性调用时，我们称之为方法。看以下代码结果。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">myObject</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">value</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">increment</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">inc</span><span class="p">){</span>
+</span><span class='line'>      <span class="c1">// console.log(typeof inc);  //返回表示数据类型的字符串。</span>
+</span><span class='line'>      <span class="c1">// console.log(typeof inc === &#39;number&#39;) //inc 如果是number类型，则输出true；</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">);</span><span class="c1">//谁调用this 指向谁。输出myObject对象</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">value</span> <span class="o">+=</span> <span class="k">typeof</span> <span class="nx">inc</span> <span class="o">===</span> <span class="s1">&#39;number&#39;</span> <span class="o">?</span> <span class="nx">inc</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nx">myObject</span><span class="p">.</span><span class="nx">increment</span><span class="p">();</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span> <span class="c1">//1</span>
+</span><span class='line'><span class="nx">myObject</span><span class="p">.</span><span class="nx">increment</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span> <span class="c1">//3</span>
+</span><span class='line'><span class="nx">myObject</span><span class="p">.</span><span class="nx">increment</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span> <span class="c1">//4</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可见，在函数作为对象的属性时，被调用时this指向这个对象。</p>
+
+<h4>2. 函数的函数调用模式</h4>
+
+<p>当函数并非一个对象的属性时，那它就当做一个函数来调用。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">myObject</span><span class="p">.</span><span class="kr">double</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">);</span> <span class="c1">//myObject</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;outter function&#39;s this: &quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">);</span> <span class="c1">//myObject</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">helper</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>      <span class="c1">//绑定到了全局的对象window；</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;inner function&#39;s this: &quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">);</span> <span class="c1">//window</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="nx">helper</span><span class="p">();</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nx">myObject</span><span class="p">.</span><span class="kr">double</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们为myObject增加一个double方法，并且在double方法中定义了一个helper函数，并调用它。我们可以可以看到这个时候，第一个输出的this指向myObject，原理跟第一个一样。然而，helper函数里面的this却指向了window全局对象。正如道大师所说这是javascript设计中的一个错误。为了能让内嵌的函数能访问包裹它的函数的上下文，我们可以如下设计。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//利用js函数闭包可以访问上一层的函数的上下文的特性。</span>
+</span><span class='line'><span class="c1">//把对象本身赋值给变量that。这样就实现了对外层函数的操作。</span>
+</span><span class='line'><span class="nx">myObject</span><span class="p">.</span><span class="kr">double</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="kd">var</span>  <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">helper</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">that</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">that</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">that</span><span class="p">.</span><span class="nx">value</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">that</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="nx">helper</span><span class="p">();</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nx">myObject</span><span class="p">.</span><span class="kr">double</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们习惯上把包裹函数的this对象赋值给that，利用javascript闭包的特性，就可以使用内嵌函数访问包裹函数的上下文。这个特性经常会用到。</p>
+
+<h4>3. 函数的构造器调用模式</h4>
+
+<p>如果一个函数的创建是为了让new调用，那么这个函数成为构造器，当用new调用时，会创建一个新对象，并且这个对默认链接到这个构造器的prototype属性的对象上。见如下代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">Quo</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">string</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;inner constructor this: &quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">status</span> <span class="o">=</span> <span class="nx">string</span><span class="p">;</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//给所有从Quo构造的对象添加get_status方法。</span>
+</span><span class='line'><span class="nx">Quo</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">get_status</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;inner get_status this: &quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">status</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">myQuo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Quo</span><span class="p">(</span><span class="s2">&quot;confused..&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;myQuo.get_status: &quot;</span> <span class="o">+</span> <span class="nx">myQuo</span><span class="p">.</span><span class="nx">get_status</span><span class="p">());</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个时候构造器内的this指向了新创建的对象。</p>
+
+<h4>4. 函数的apply调用模式</h4>
+
+<p>apply方法让我们构建一个参数数组传递给调用函数，它也允许我们选择this的值，apply方法接收两个参数，第一个是要绑定给this的值，第二个就是一个参数数组；</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">status_Object</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">status</span><span class="o">:</span> <span class="s1">&#39;A-OK&#39;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//status_Object 并没有继承自Quo.prototype，但我们可以在status_Object</span>
+</span><span class='line'><span class="c1">//调用get_status方法。</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">status</span> <span class="o">=</span> <span class="nx">Quo</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">get_status</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">status_Object</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">status</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>结合第三种调用方式中的代码，可以看出，因为get_status方法的参数为空，所以我们只传入了status_Object，从输出（get_status方法内的输出）可见this指向了status_Object。但当apply()的参数为空时，默认调用全局对象。</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-16T21:37:00+08:00" pubdate data-updated="true">Oct 16<span>th</span>, 2013</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/javascript/'>javascript</a>
+
+</div>
+
+
+	
+</div></article>
 
 
     <article class="post">
