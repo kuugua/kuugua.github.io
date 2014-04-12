@@ -9,7 +9,7 @@
 
 <meta name="author" content="kugua"> 
 
-<meta name="description" content="趁着除夕的晚上把2013给总结下吧，其实2013还是对我来说还是蛮重要的一年。最近了看了几部电影，《蝴蝶效应》,《记忆碎片》和《About Time》都是有关于穿越到过去的题材。然后仔细想了想自己2013。 假如我不参加什么航天班，就不会到目前这家公司实习，假如我不参加这个班的选拔， &hellip;"> <meta name="keywords" content="">
+<meta name="description" content=" Apr 12th, 2014 "> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -99,6 +99,42 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/04/12/dd/">
+		
+			Dd</a>
+	</h2>
+	<div class="entry-content">
+		
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-12T09:47:54+08:00" pubdate data-updated="true">Apr 12<span>th</span>, 2014</time></div>
+	
+
+
+	
+</div></article>
 
 
     <article class="post">
@@ -1835,66 +1871,6 @@ Javascript语言的特殊之处，就在于函数内部可以直接读取全局�
 <div class="tags">
 
 	<a class='category' href='/blog/categories/webqian-duan/'>Web前端</a>
-
-</div>
-
-
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/10/16/jvm-object-visit/">
-		
-			【原创】jvm中对象的访问方式</a>
-	</h2>
-	<div class="entry-content">
-		<p><img src="http://farm8.staticflickr.com/7284/9046538774_13144c8e0d_c.jpg" title="by Chic*ka" ></p>
-
-<p>在不同的的jvm中，实现对象的访问方式会有所不同，其中主流的访问方式有两种：使用句柄和直接指针。</p>
-
-<p><strong>1. 句柄方式：</strong></p>
-
-<p>jvm会在堆中划分一部分内存存放句柄，称为句柄池，reference引用存储着句柄的地址，而句柄中包含了对象实例数据的指针和对象类型数据指针（指向方法区中对象类型信息）</p>
-
-<p><img src="http://farm3.staticflickr.com/2829/10456407563_092698dc8a.jpg" title="句柄方式" ></p>
-
-<p>使用句柄方式的优点是，reference中存放的是句柄的地址，堆中对象移动后，句柄地址变化，而reference中的内容不变。</p>
-
-<p><strong>2. 直接指针方式：</strong></p>
-
-<p>在直接指针方式中，reference中直接存放着对象的地址，而对象中存放着对对象类型数据的指针。</p>
-
-<p><img src="http://farm3.staticflickr.com/2886/10456406993_c33cf7b1e6.jpg" title="直接指针方式" ></p>
-
-<p>直接指针方式的优点是访问速度比句柄方式快，因为减少了一次指针的定位的开销。这在java中对象访问频繁的情况能节约很大的执行成本。Sun HotSpot 使用的是直接指针方式。</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-16T21:37:00+08:00" pubdate data-updated="true">Oct 16<span>th</span>, 2013</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/chu-she-jvm/'>初涉jvm</a>
 
 </div>
 
